@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UploadTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,14 +20,28 @@ class User extends Authenticatable
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use UploadTrait;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var string[]
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'mobile_no',
+        'user_type',
+        'gender',
+        'dob',
+        'address',
+        'remember_token',
+        'country_id',
+        'state_id',
+        'city_id',
+        'status',
     ];
 
     /**
@@ -58,4 +73,12 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function hobbies()
+    {
+        return $this->belongsToMany(Hobby::class, "hobby_user", "user_id", "hobby_id");
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,12 +18,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
+//user routes..
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'adminAuth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
+
+//admin routes..
+Route::middleware(['adminAuth'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin-dashboard');
+
+    /* Users */
+    Route::get('/admin/users', [UsersController::class, 'viewUsers'])->name('users'); //User listing
+    Route::get('/admin/create-user', [UsersController::class, 'create'])->name('create-user'); // Create New User
 });
