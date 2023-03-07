@@ -19,11 +19,11 @@ class AdminAuth
     {
         //check user is admin then redirect to admin dashboard
         if (!is_null(auth()->user())) {
-            if (auth()->user()->user_type == '0' && Str::contains($request->url(), 'admin') == true) {
+            if (auth()->user()->user_type == config('constants.user.user_type_enum.0') && Str::contains($request->url(), 'admin') == true) {
                 return $next($request);
-            } else if (auth()->user()->user_type == '0' && Str::contains($request->url(), 'admin') == false) { //check admin user then redirect to admin dashboard
+            } else if (auth()->user()->user_type == config('constants.user.user_type_enum.0') && Str::contains($request->url(), 'admin') == false) { //check admin user then redirect to admin dashboard
                 return redirect('/admin/dashboard');
-            } else if (auth()->user()->user_type == '2' && Str::contains($request->url(), 'admin') == true) { //check user then redirect to user dashboard
+            } else if (auth()->user()->user_type == config('constants.user.user_type_enum.2') && Str::contains($request->url(), 'admin') == true) { //check user then redirect to user dashboard
                 return redirect('/dashboard');
             } else {
                 return $next($request);

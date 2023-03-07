@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UsersResource;
 use App\Models\User;
 use App\Models\UserComment;
 use App\Models\UserGallery;
@@ -35,8 +36,8 @@ class UsersController extends Controller
     {
         $data = $request->all();
         /* common code for user data insert into database */
-        $this->commonUserInsert($data, $request->gallery, $request->hobby, []);
-        return response()->json(['message' => 'User Created Successfully.'], 200);
+        $user = $this->commonUserInsert($data, $request->gallery, $request->hobby, []);
+        return new UsersResource($user);
     }
 
 
@@ -52,7 +53,8 @@ class UsersController extends Controller
     public static function commonUserInsert($userData, $galleries, $hobbies, $comments)
     {
 
-        $userData['user_type'] = '1'; // User type id author or sub admin
+        $userData['user_type'] = config('constants.user.user_type_enum.1'); // User type id author or sub admin
+        $userData['status'] = config('constants.user.status_enum.1');
         $userData = User::create($userData);
         $userId = $userData->id;
         /* Insert multiple user galleries */
@@ -76,5 +78,7 @@ class UsersController extends Controller
                 UserComment::create(['user_id' => $userId, 'comment' => $comments[$key]]);
             }
         }
+
+        return $userData;
     }
 }

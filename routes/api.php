@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,13 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::group([
     'prefix' => 'v1',
     //'namespace' => 'API',
 ], function () {
-    Route::post('create-user', '\App\Http\Controllers\UsersController@store');
+
+    Route::post('login', '\App\Http\Controllers\LoginController@login'); //Login
+
+    Route::group(['middleware' => ['auth:sanctum']],  function () {
+        /* Users */
+        Route::post('create-user', '\App\Http\Controllers\UsersController@store'); //Create User
+        Route::get('logout', '\App\Http\Controllers\LoginController@logout'); //Logout
+    });
 });

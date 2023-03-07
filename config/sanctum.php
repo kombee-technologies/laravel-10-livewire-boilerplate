@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'expiration' => null,
+    'expiration' => config('constants.sanctum_token_expiry'),
 
     /*
     |--------------------------------------------------------------------------
