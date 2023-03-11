@@ -2,7 +2,10 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HobbyController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserGalleryController;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Hobby;
@@ -184,8 +187,18 @@ class CreateUsers extends Component
             'city_id' => $this->user->city_id,
             'address' => $this->user->address,
         ];
+
         /* common code for user data insert into database */
-        UsersController::commonUserInsert($userData, $this->galleries, $this->hobbies, $this->comment);
+        $user = UserController::userStore($userData);
+
+        /* Insert multiple user galleries */
+        UserGalleryController::store($user, $this->galleries);
+
+        /* Insert multiple hobbies */
+        HobbyController::store($user, $this->hobbies);
+
+        /* Insert multiple user comments */
+        CommentController::store($user, $this->comment);
 
         redirect()->to('/admin/users');
         session()->flash('message', 'User Created Successfully.');
@@ -203,6 +216,7 @@ class CreateUsers extends Component
      */
     public function updated($propertyName)
     {
+        
         $this->validateOnly($propertyName, $this->rules());
     }
 

@@ -22,7 +22,7 @@ Route::group([
 
     Route::group(['middleware' => ['auth:sanctum']],  function () {
         /* Users */
-        Route::post('create-user', '\App\Http\Controllers\UsersController@store'); //Create User
+        Route::post('create-user', '\App\Http\Controllers\UserController@store'); //Create User
         Route::get('logout', '\App\Http\Controllers\LoginController@logout'); //Logout
     });
 });

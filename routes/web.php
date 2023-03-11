@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +32,6 @@ Route::middleware(['adminAuth'])->group(function () {
     })->name('admin-dashboard');
 
     /* Users */
-    Route::get('/admin/users', [UsersController::class, 'viewUsers'])->name('users'); //User listing
-    Route::get('/admin/create-user', [UsersController::class, 'create'])->name('create-user'); // Create New User
+    Route::get('/admin/users', [UserController::class, 'viewUsers'])->name('users'); //User listing
+    Route::get('/admin/create-user', [UserController::class, 'create'])->name('create-user'); // Create New User
 });
