@@ -21,6 +21,7 @@ class JetstreamServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerComponent('admin-welcome');
+        $this->registerComponent('chip-input');
     }
 
     /**

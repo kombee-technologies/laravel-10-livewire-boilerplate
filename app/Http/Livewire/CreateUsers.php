@@ -28,6 +28,18 @@ class CreateUsers extends Component
     public $i = 1;
     public $updateMode = false;
 
+    public $chips = [];
+
+    public function addChip($chip)
+    {
+        $this->chips[] = $chip;
+    }
+
+    public function removeChip($index)
+    {
+        unset($this->chips[$index]);
+        $this->chips = array_values($this->chips);
+    }
 
     /**
      * add
@@ -216,7 +228,7 @@ class CreateUsers extends Component
      */
     public function updated($propertyName)
     {
-        
+
         $this->validateOnly($propertyName, $this->rules());
     }
 
