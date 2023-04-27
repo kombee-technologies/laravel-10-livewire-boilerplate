@@ -146,7 +146,7 @@
                                     </div>
                                 </div>
 
-
+                                <livewire:multi-select-with-search :options="['Option 1', 'Option 2', 'Option 3']" :selected="['Option 1']" />
 
                                 <div class="flex flex-col col-span-6">
                                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
