@@ -14,6 +14,13 @@ class UsersTable extends DataTableComponent
 {
     protected $model = User::class;
 
+
+    public function builder(): Builder
+    {
+        return User::query()
+            ->where('user_type', '!=', '0');
+    }
+
     /**
      * configure
      *
