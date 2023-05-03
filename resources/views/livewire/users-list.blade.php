@@ -21,6 +21,8 @@
                     Create New User
                 </a>
 
+                <livewire:users-table />
+
             </div>
         </div>
     </div>
