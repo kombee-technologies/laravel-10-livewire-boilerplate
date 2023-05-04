@@ -232,6 +232,11 @@ class CreateUsers extends Component
         $this->validateOnly($propertyName, $this->rules());
     }
 
+
+    public function destroyRecord()
+    {
+    }
+
     /**
      * cancel
      *

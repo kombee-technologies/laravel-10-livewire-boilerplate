@@ -21,6 +21,14 @@
                     Create New User
                 </a>
 
+
+
+                <!-- <a href="#" class="cursor-pointer" wire:click="$emitTo('confirm', 'displayConfirmation', 'Delete Record', 'Are you sure?', 'create-users', 'destroyRecord', '22')">
+
+                    <x-icon name="trash" class="text-indigo hover:text-red-500 mr-3 flex-shrink-0 h-6 w-6">
+                    </x-icon>
+                </a> -->
+
                 <livewire:users-table />
 
             </div>

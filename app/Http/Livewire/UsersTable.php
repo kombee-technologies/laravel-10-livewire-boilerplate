@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\UsersExport;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -68,7 +69,7 @@ class UsersTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
 
-            /* Column::make('Actions')
+            /*  Column::make('Actions')
                 ->label(
                     function ($row, Column $column) {
                         $delete = '<button wire:click="deleteCategory(' . $row->id . ')" class="inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-600 transition ease-in-out duration-150">
@@ -81,11 +82,17 @@ class UsersTable extends DataTableComponent
                     }
                 )->html(), */
 
-            /*  Column::make('Actions')->label(function ($row, Column $column) {
-                return view('livewire.datatables_actions', ['row' => $row, 'form' => Categories::class]);
-            },) */
+            Column::make('Actions')->label(function ($row, Column $column) {
+                return view('livewire.datatables_actions', ['row' => $row]);
+            },)
 
         ];
+    }
+
+
+    public function delete($id)
+    {
+        $this->emitTo('confirm', 'displayConfirmation', 'Delete Record', 'Are you sure?', 'create-users', 'destroyRecord', $id);
     }
 
 
@@ -97,21 +104,21 @@ class UsersTable extends DataTableComponent
     public function bulkActions(): array
     {
         return [
-            //'activate' => 'Activate',
-            //'deactivate' => 'Deactivate',
+            'activate' => 'Activate',
+            'deactivate' => 'Deactivate',
             'export' => 'Export',
         ];
     }
 
 
-    /*  public function export()
+    public function export()
     {
-        $categoryIds = $this->getSelected();
+        $usersId = $this->getSelected();
 
         $this->clearSelected();
 
-        return Excel::download(new CategoriesExport($categoryIds), 'Categories.csv');
-    } */
+        return Excel::download(new UsersExport($usersId), 'Users.csv');
+    }
 
     /**
      * activate
