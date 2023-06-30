@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -41,6 +41,12 @@ class UsersRequest extends FormRequest
             'city_id' => 'required|integer|exists:cities,id,deleted_at,NULL',
             'hobby' => 'required|exists:hobbies,id,deleted_at,NULL|array',
             'hobby.*' => 'required|integer',
+            'chip.0' => 'required',
+            'chip.*' => 'required',
+            'tags.0' => 'required',
+            'tags.*' => 'required',
+            'comment.0' => 'required',
+            'comment.*' => 'required',
         ];
 
         return $commonRule;

@@ -89,10 +89,15 @@ class UsersTable extends DataTableComponent
         ];
     }
 
-
     public function delete($id)
     {
-        $this->emitTo('confirm', 'displayConfirmation', 'Delete Record', 'Are you sure?', 'create-users', 'destroyRecord', $id);
+        // dd("54555");
+        // User::whereIn('id', $id)->update(['status' => '1']);
+
+        $user = User::find($id);
+        $user->delete();
+        // $this->clearSelected();
+        // $this->emitTo('confirm', 'displayConfirmation', 'Delete Record', 'Are you sure?', 'create-users', 'destroyRecord', $id);
     }
 
 

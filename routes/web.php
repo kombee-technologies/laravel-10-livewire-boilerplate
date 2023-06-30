@@ -34,4 +34,5 @@ Route::middleware(['adminAuth'])->group(function () {
     /* Users */
     Route::get('/admin/users', [UserController::class, 'viewUsers'])->name('users'); //User listing
     Route::get('/admin/create-user', [UserController::class, 'create'])->name('create-user'); // Create New User
+    Route::get('/admin/users/update/{id}', [UserController::class, 'updateUsers'])->name('admin.users.update'); //Update User
 });

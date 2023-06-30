@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\OptionController;
+use App\Http\Controllers\ChipController;
 use App\Http\Controllers\HobbyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGalleryController;
@@ -22,11 +24,15 @@ class CreateUsers extends Component
     use WithFileUploads, UploadTrait;
 
     public User $user;
-    public $countries, $states, $cities, $comment;
+    public $countries, $states, $cities, $comment, $upid;
     public $hobbies = [], $galleries = [], $tags = [], $multiple_options;
     public $inputs  = [];
     public $i = 1;
     public $updateMode = false;
+    public $filteredOptions = ['Option 1', 'Option 2', 'Option 3'];
+
+    public $action;
+    public $data;
 
     public $chips = [];
 
@@ -168,12 +174,41 @@ class CreateUsers extends Component
      *
      * @return void
      */
-    public function mount()
+    public function mount($action,$data)
     {
-
+        
         $this->user = new User;
         //sleep(10);
         $this->countries = Country::all();
+
+        if($action == 'update'){
+            $this->action = $action;
+            $this->user = $data;
+            $this->upid = $data->id;
+
+            $this->hobbies = $data->hobbies_id;
+
+            // $this->galleries = $data->galleries;
+
+            $this->comment = $data->comments;
+
+            $this->tags = $data->options;
+
+            $this->inputs = $data->total_comments;
+
+            $this->chips = $data->chips;
+
+            $this->states = State::orderby('name', 'asc')
+                ->select('*')
+                ->where('country_id', $this->user->country_id)
+                ->get();
+    
+            $this->cities = City::orderby('name', 'asc')
+                ->select('*')
+                ->where('state_id', $this->user->state_id)
+                ->get();
+        }
+        
     }
 
 
@@ -184,7 +219,6 @@ class CreateUsers extends Component
      */
     public function store()
     {
-
         $this->validate();
 
         $userData = [
@@ -212,12 +246,62 @@ class CreateUsers extends Component
         /* Insert multiple user comments */
         CommentController::store($user, $this->comment);
 
+        /* Insert multiple user Options */
+        OptionController::store($user, $this->tags);
+
+        /* Insert multiple user Chips */
+        ChipController::store($user, $this->chips);
+
         redirect()->to('/admin/users');
         session()->flash('message', 'User Created Successfully.');
 
         /* if ($this->role_id == config('constants.users_roles_ids.client')) {
             Mail::to($this->user->email)->queue(new WelcomeUser($this->user));
         } */
+    }
+
+
+    public function edit()
+    {
+        // $this->validate([
+        //     'user.first_name' => ['required', 'string', 'max:255'],
+        //     'user.last_name' => ['required', 'string', 'max:255'],
+        //     'user.email' => ['required', 'email', 'unique:users,email,'.$this->upid],
+        //     'user.mobile_no' => 'required | regex:/^[6-9]\d{9}$/ | digits:10',
+        //     'user.address' => ['required', 'string', 'max:500'],
+        //     'user.gender' =>  ['required', Rule::in([0, 1])],
+        //     'user.dob' => 'required|date|date_format:Y-m-d',
+        //     'user.country_id' => 'required|integer|exists:countries,id,deleted_at,NULL',
+        //     'user.state_id' => 'required|integer|exists:states,id,deleted_at,NULL',
+        //     'user.city_id' => 'required|integer|exists:cities,id,deleted_at,NULL',
+        //     'hobbies' => 'required|exists:hobbies,id,deleted_at,NULL|array',
+        //     'hobbies.*' => 'required|integer',
+        //     'comment.0' => 'required',
+        //     'comment.*' => 'required',
+        // ]);
+
+        $userData = [
+            'id' => $this->upid,
+            'first_name' => $this->user->first_name,
+            'last_name' => $this->user->last_name,
+            'email' => $this->user->email,
+            'mobile_no' => $this->user->mobile_no,
+            'gender' => $this->user->gender,
+            'dob' => $this->user->dob,
+            'country_id' => $this->user->country_id,
+            'state_id' => $this->user->state_id,
+            'city_id' => $this->user->city_id,
+            'address' => $this->user->address,
+        ];
+
+        $user = UserController::userUpdate($userData);
+        UserGalleryController::update($userData['id'], $this->galleries);
+        HobbyController::update($userData['id'], $this->hobbies);
+        CommentController::update($userData['id'], $this->comment);
+        OptionController::update($userData['id'], $this->tags);
+        ChipController::update($userData['id'], $this->chips);
+        redirect()->to('/admin/users');
+        session()->flash('message', 'User Updated Successfully.');
     }
 
     /**
@@ -233,9 +317,6 @@ class CreateUsers extends Component
     }
 
 
-    public function destroyRecord()
-    {
-    }
 
     /**
      * cancel

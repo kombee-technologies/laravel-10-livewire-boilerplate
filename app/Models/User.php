@@ -11,6 +11,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -21,6 +22,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use UploadTrait;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -128,6 +130,26 @@ class User extends Authenticatable
     public function hobbies()
     {
         return $this->belongsToMany(Hobby::class, "hobby_user", "user_id", "hobby_id");
+    }
+
+     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(UserComment::class);
+    }
+
+
+    public function options()
+    {
+        return $this->hasMany(UserOption::class);
+    }
+
+
+    public function chips()
+    {
+        return $this->hasMany(UserChip::class);
     }
 
     /**

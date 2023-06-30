@@ -1,6 +1,7 @@
 <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Add User') }}
+        {{ ($action == 'create') ? __('Add User') : __('Update User') }}
+        {{-- __('Add User') --}}
     </h2>
 </x-slot>
 
@@ -117,9 +118,13 @@
                                     <x-input-error for="hobbies" class="mt-2" />
                                     <x-input-error for="hobbies.*" class="mt-2" />
                                 </div>
-
                                 <div class="col-span-6 sm:col-span-3">
                                     <div class="mt-2">
+                                        @if(isset($user['user_galleries']))
+                                        @foreach ($user['user_galleries'] as $key => $gallery)
+                                        <div><img src="{{$gallery->filename}}" /></div>
+                                        @endforeach
+                                        @endif
                                         <x-label for="galleries" value="{{ __('Image Upload*') }}" />
                                         <input type="file" max="5" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" wire:model="galleries" multiple>
                                     </div>
@@ -130,6 +135,7 @@
 
                                 <div class="flex flex-col col-span-6">
                                     <div class="flex flex-wrap gap-2">
+
                                         @foreach($chips as $index => $chip)
                                         <div class="bg-gray-100 text-gray-700 rounded-full py-1 px-2">
                                             {{ $chip }}
@@ -146,7 +152,19 @@
                                     </div>
                                 </div>
 
-                                <livewire:multi-select-with-search :options="['Option 1', 'Option 2', 'Option 3']" :selected="['Option 1']" />
+                                {{-- <livewire:multi-select-with-search :options="['Option 1', 'Option 2', 'Option 3']" :selected="['Option 1']" /> --}}
+
+                                <div>
+                                    <input type="text" wire:model.debounce.300ms="search" placeholder="Search..." class="w-full px-3 py-2 border rounded-md">
+                                    <div class="mt-2">
+                                        @foreach($filteredOptions as $option)
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" value="{{ $option }}" wire:model="tags" class="text-indigo-600 border-gray-300 rounded focus:ring-0">
+                                            <span class="ml-2 text-gray-700">{{ $option }}</span>
+                                        </label>
+                                        @endforeach
+                                    </div>
+                                </div>
 
                                 <div class="flex flex-col col-span-6">
                                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -158,6 +176,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        @if($action == 'create')
                                                         <tr>
                                                             <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
                                                                 <x-label for="comment" value="{{ __('Comment*') }}" />
@@ -168,7 +187,10 @@
                                                                 <x-heroicons::mini.solid.plus-circle class="w-10 h-10 cursor-pointer" wire:click.prevent="add({{$i}})" />
                                                             </td>
                                                         </tr>
+                                                        @endif
+
                                                         @foreach($inputs as $key => $value)
+
                                                         <tr class="border-b dark:border-neutral-500">
                                                             <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
                                                                 <x-label for="galleries" value="{{ __('Comment*') }}" />
@@ -176,9 +198,16 @@
                                                                 @error('comment.'.$value) <span class="text-red-500">{{ $message }}</span>@enderror
                                                             </td>
 
+                                                            @if($value == 1 && $action != 'create')
+                                                            <td class="whitespace-nowrap px-6 py-4">
+                                                                <!-- <x-heroicons::mini.solid.minus-circle class="w-10 h-10 hover:text-red-500 cursor-pointer" wire:click.prevent="remove({{$key}})" /> -->
+                                                                <x-heroicons::mini.solid.plus-circle class="w-10 h-10 cursor-pointer" wire:click.prevent="add({{$i+1}})" />
+                                                            </td>
+                                                            @else
                                                             <td class="whitespace-nowrap px-6 py-4">
                                                                 <x-heroicons::mini.solid.minus-circle class="w-10 h-10 hover:text-red-500 cursor-pointer" wire:click.prevent="remove({{$key}})" />
                                                             </td>
+                                                            @endif
                                                         </tr>
                                                         @endforeach
                                                     </tbody>
@@ -200,9 +229,15 @@
                                 {{ __('Cancel') }}
                             </x-secondary-button>
 
+                            @if($action == 'create')
                             <x-button class="ml-3" wire:click="store()" wire:loading.attr="disabled">
                                 {{ __('Save') }}
                             </x-button>
+                            @else
+                            <x-button class="ml-3" wire:click="edit()" wire:loading.attr="disabled">
+                                {{ __('Update') }}
+                            </x-button>
+                            @endif
 
                         </div>
                     </div>
