@@ -75,7 +75,7 @@ class UserController extends Controller
 
 
         $chips = $userData['chips'];
-        $ochips_text = [];
+        $chips_text = [];
         foreach($chips as $c){
             $chips_text[] = $c->chips;
         }
