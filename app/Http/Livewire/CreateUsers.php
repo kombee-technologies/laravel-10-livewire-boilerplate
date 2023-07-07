@@ -24,7 +24,7 @@ class CreateUsers extends Component
     use WithFileUploads, UploadTrait;
 
     public User $user;
-    public $countries, $states, $cities, $comment, $upid;
+    public $countries, $states, $cities, $comment, $upid, $previousRoute;
     public $hobbies = [], $galleries = [], $tags = [], $multiple_options;
     public $inputs  = [];
     public $i = 1;
@@ -182,6 +182,9 @@ class CreateUsers extends Component
         $this->countries = Country::all();
 
         if($action == 'update'){
+            $getPreviousURL = url()->previous();
+
+            $this->previousRoute = $getPreviousURL;
             $this->action = $action;
             $this->user = $data;
             $this->upid = $data->id;
@@ -300,7 +303,7 @@ class CreateUsers extends Component
         CommentController::update($userData['id'], $this->comment);
         OptionController::update($userData['id'], $this->tags);
         ChipController::update($userData['id'], $this->chips);
-        redirect()->to('/admin/users');
+        redirect()->to($this->previousRoute);
         session()->flash('message', 'User Updated Successfully.');
     }
 
@@ -325,6 +328,7 @@ class CreateUsers extends Component
      */
     public function cancel()
     {
-        redirect()->to('/admin/users');
+        // redirect()->to('/admin/users');
+        redirect()->to($this->previousRoute);
     }
 }

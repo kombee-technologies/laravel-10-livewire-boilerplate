@@ -78,4 +78,8 @@ return [
 
         'gender_enum' => ['0', '1'],
     ],
+
+    'allowed_ip_addresses' => [
+        'telescope' => env('TELESCOPE_ALLOWED_IP_ADDRESSES'),
+    ],
 ];

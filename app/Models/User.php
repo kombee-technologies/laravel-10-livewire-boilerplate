@@ -24,6 +24,7 @@ class User extends Authenticatable
     use UploadTrait;
     use SoftDeletes;
 
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *

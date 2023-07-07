@@ -24,18 +24,35 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        // return [
+        //     'first_name' => $this->faker->firstName(),
+        //     'last_name' => $this->faker->lastName(),
+        //     'user_type' => '0',
+        //     'email' => $this->faker->unique()->safeEmail(),
+        //     'email_verified_at' => now(),
+        //     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        //     'two_factor_secret' => null,
+        //     'two_factor_recovery_codes' => null,
+        //     'remember_token' => Str::random(10),
+        //     'profile_photo_path' => null,
+        //     'current_team_id' => null,
+        // ];
+
+        $randomstr = Str::random(5);
+        $email = $this->faker->firstName().'@'.$randomstr.'.com';
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'user_type' => '0',
-            'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'two_factor_secret' => null,
-            'two_factor_recovery_codes' => null,
-            'remember_token' => Str::random(10),
-            'profile_photo_path' => null,
-            'current_team_id' => null,
+            'user_type' => '1',
+            'email' => $email,
+            'mobile_no' => $this->faker->numerify('##########'),
+            'gender' => '1',
+            'dob' => now(),
+            'country_id' => '1',
+            'state_id' => '1',
+            'city_id' => '1',
+            'address' => '',
+            'status' => '1'
         ];
     }
 

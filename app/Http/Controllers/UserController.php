@@ -6,6 +6,8 @@ use App\Http\Requests\UsersRequest;
 use App\Http\Resources\UsersResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
+use RuntimeException;
 
 class UserController extends Controller
 {
@@ -33,7 +35,6 @@ class UserController extends Controller
      */
     public function viewUsers()
     {
-
         return view('livewire.users-list');
     }
 
