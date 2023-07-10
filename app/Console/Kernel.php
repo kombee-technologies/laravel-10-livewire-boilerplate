@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('telescope:prune --hours=48')->daily(); // Remove Telescope logs older than 48 hours
 
-        $schedule->command('dummyDataInsert:cron')->cron('*/15 * * * *') // Add Dummy Data every 15 minutes
+        $schedule->command('dummyDataInsert:cron')->cron('*/15 * * * *'); // Add Dummy Data every 15 minutes
     }
 
     /**
