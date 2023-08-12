@@ -45,7 +45,11 @@
                     </x-icon>
                 </a> -->
 
-                <livewire:users-table />
+                {{-- <livewire:users-table /> --}}
+
+                <livewire:data-table-users/>
+
+                {{-- <livewire:user-data-table/> --}}
 
             </div>
         </div>
