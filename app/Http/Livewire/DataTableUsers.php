@@ -8,12 +8,17 @@ use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\{ActionButton, WithExport};
 use PowerComponents\LivewirePowerGrid\Filters\Filter;
-use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridColumns};
+use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridColumns, Responsive};
 
 final class DataTableUsers extends PowerGridComponent
 {
     use ActionButton;
     use WithExport;
+
+    public bool $deferLoading = true; // default false
+    public string $loadingComponent = 'components.my-custom-loading';
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -27,13 +32,20 @@ final class DataTableUsers extends PowerGridComponent
         $this->showCheckBox();
 
         return [
+            //Responsive::make(),
+            Header::make()
+            ->withoutLoading()
+             ->showToggleColumns(),
+
             Exportable::make('export')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
+
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
+
         ];
     }
 
