@@ -23,6 +23,7 @@
 
         <div class="min-h-screen bg-gray-100">
             @livewire('navigation-menu')
+            @livewire('livewire-ui-modal')
 
             <!-- Page Heading -->
             @if (isset($header))

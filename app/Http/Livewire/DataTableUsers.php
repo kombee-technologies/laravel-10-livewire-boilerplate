@@ -49,6 +49,17 @@ final class DataTableUsers extends PowerGridComponent
         ];
     }
 
+
+    public function header(): array
+    {
+        return [
+            Button::add('bulk-delete')
+                ->caption(__('Bulk delete'))
+                ->class('cursor-pointer block bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-600 dark:border-gray-500 dark:bg-gray-500 2xl:dark:placeholder-gray-300 dark:text-gray-200 dark:text-gray-300')
+                ->emit('bulkDelete', []),
+        ];
+    }
+
     /*
     |--------------------------------------------------------------------------
     |  Datasource
@@ -64,7 +75,7 @@ final class DataTableUsers extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return User::query();
+        return User::query()->where('user_type', '!=', '0');
     }
 
     /*
@@ -101,10 +112,8 @@ final class DataTableUsers extends PowerGridComponent
         return PowerGrid::columns()
             ->addColumn('id')
             ->addColumn('first_name')
-
            /** Example of custom column using a closure **/
             ->addColumn('first_name_lower', fn (User $model) => strtolower(e($model->first_name)))
-
             ->addColumn('last_name')
             ->addColumn('email')
             ->addColumn('mobile_no')
@@ -112,10 +121,6 @@ final class DataTableUsers extends PowerGridComponent
             ->addColumn('gender')
             ->addColumn('dob_formatted', fn (User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
             ->addColumn('address')
-            /* ->addColumn('country_id')
-            ->addColumn('state_id')
-            ->addColumn('city_id')
-            ->addColumn('status') */
             ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
@@ -153,10 +158,6 @@ final class DataTableUsers extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            /* Column::make('User type', 'user_type')
-                ->sortable()
-                ->searchable(), */
-
             Column::make('Gender', 'gender')
                 ->sortable()
                 ->searchable(),
@@ -167,16 +168,6 @@ final class DataTableUsers extends PowerGridComponent
             Column::make('Address', 'address')
                 ->sortable()
                 ->searchable(),
-
-            /* Column::make('Country id', 'country_id'),
-            Column::make('State id', 'state_id'),
-            Column::make('City id', 'city_id'),
-            Column::make('Status', 'status')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->sortable(), */
 
         ];
     }
@@ -216,15 +207,42 @@ final class DataTableUsers extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    public function actions(): array
+    /* public function actions(): array
     {
        return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm'),
+            Button::make('edit', 'Edit')
+                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+                ->route('admin.users.update', function(User $user) {
+                return ['id' => $user->id];
+            }),
 
-           Button::make('destroy', 'Delete')
+           Button::make('destroy', 'delete')
                ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
                ->method('delete')
+        ];
+    } */
+
+    /**
+     * PowerGrid Dish Action Buttons.
+     *
+     * @return array<int, Button>
+     */
+    public function actions(): array
+    {
+
+        return [
+            Button::make('edit', 'Edit')
+                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+                ->route('admin.users.update', function(User $user) {
+                    return ['id' => $user->id];
+                }),
+
+            Button::add('destroy')
+                ->caption(__('Delete'))
+                ->class('bg-red-500 text-white px-3 py-2 m-1 rounded text-sm')
+                ->openModal('delete-user', function(User $user) {
+                    return ['userId' => $user->id, 'confirmationTitle' => 'Delete user', 'confirmationDescription' => 'Are you sure want to delete this record?'];
+                }),
         ];
     }
 
@@ -252,7 +270,41 @@ final class DataTableUsers extends PowerGridComponent
             Rule::button('edit')
                 ->when(fn($user) => $user->id === 1)
                 ->hide(),
+
+                Rule::button('destroy')
+                ->when(fn ($user) => $user->id == 1)
+                ->caption('Delete #1'),
         ];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    |  Event listeners
+    |--------------------------------------------------------------------------
+    | Add custom events to DishesTable
+    |
+    */
+    protected function getListeners(): array
+    {
+        return array_merge(
+            parent::getListeners(), [
+                //'edit-dish' => 'editDish',
+                'bulkDelete',
+            ]);
+    }
+
+     /*
+    |--------------------------------------------------------------------------
+    |  Bulk delete button
+    |--------------------------------------------------------------------------
+    */
+    public function bulkDelete(): void
+    {
+        $this->emit('openModal', 'delete-user', [
+            'userIds'                 => $this->checkboxValues,
+            'confirmationTitle'       => 'Delete user',
+            'confirmationDescription' => 'Are you sure want to delete this record?',
+        ]);
     }
 
 }

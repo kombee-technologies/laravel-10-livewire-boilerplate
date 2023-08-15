@@ -8,6 +8,7 @@ module.exports = {
         //"./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         //"./vendor/laravel/jetstream/**/*.blade.php",
         //"./storage/framework/views/*.php",
+        './vendor/wire-elements/modal/resources/views/*.blade.php',
         "./resources/views/**/*.blade.php",
        // "./vendor/rappasoft/laravel-livewire-tables/resources/views/**/*.blade.php",
 
@@ -16,7 +17,13 @@ module.exports = {
         './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php'
     ],
 
-    darkMode: 'class',
+    options: {
+        safelist: [
+          'sm:max-w-2xl'
+        ]
+      },
+
+      darkMode: true, // or 'media' or 'class'
 
      // optional
      theme: {
