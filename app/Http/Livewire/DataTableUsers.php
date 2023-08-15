@@ -117,8 +117,14 @@ final class DataTableUsers extends PowerGridComponent
             ->addColumn('last_name')
             ->addColumn('email')
             ->addColumn('mobile_no')
-            ->addColumn('user_type')
-            ->addColumn('gender')
+            ->addColumn('gender', function (User $model) {
+                if($model->gender == '0'){
+                   $gender = 'Female';
+                } else {
+                    $gender = 'Male';
+                }
+                return $gender;
+              })
             ->addColumn('dob_formatted', fn (User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
             ->addColumn('address')
             ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
@@ -184,12 +190,7 @@ final class DataTableUsers extends PowerGridComponent
             Filter::inputText('last_name')->operators(['contains']),
             Filter::inputText('email')->operators(['contains']),
             Filter::inputText('mobile_no')->operators(['contains']),
-            Filter::inputText('user_type')->operators(['contains']),
-            Filter::inputText('gender')->operators(['contains']),
-            Filter::datepicker('dob'),
             Filter::inputText('address')->operators(['contains']),
-            Filter::inputText('status')->operators(['contains']),
-           /*  Filter::datetimepicker('created_at'), */
         ];
     }
 
@@ -200,27 +201,6 @@ final class DataTableUsers extends PowerGridComponent
     | Enable the method below only if the Routes below are defined in your app.
     |
     */
-
-    /**
-     * PowerGrid User Action Buttons.
-     *
-     * @return array<int, Button>
-     */
-
-    /* public function actions(): array
-    {
-       return [
-            Button::make('edit', 'Edit')
-                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-                ->route('admin.users.update', function(User $user) {
-                return ['id' => $user->id];
-            }),
-
-           Button::make('destroy', 'delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->method('delete')
-        ];
-    } */
 
     /**
      * PowerGrid Dish Action Buttons.
