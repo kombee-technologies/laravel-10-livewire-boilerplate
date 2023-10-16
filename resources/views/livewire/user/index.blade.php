@@ -4,7 +4,9 @@
         <!--begin::Container-->
         <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
             <!--begin::Page title-->
-            <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+            <div data-kt-swapper="true" data-kt-swapper-mode="prepend"
+                data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+                class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
                 <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">@lang('messages.user.index.header_title')</h1>
                 <!--end::Title-->
@@ -49,14 +51,31 @@
             <!--begin::Card-->
             <div class="card">
                 <!--begin::Card header-->
-                <div class="card-header border-0 pt-6">
+                <div class="card-header border-0">
+                    <!--begin::Card title-->
+                    <div class="card-title">
 
+                    </div>
+                    <!--begin::Card title-->
+                    <!--begin::Card toolbar-->
+                    <div class="card-toolbar">
+                        <!--begin::Toolbar-->
+                        <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                            <!--begin::Add user-->
+                            <a href="/users/create"  class="btn btn-primary" wire:navigate><i class="las la-plus fs-1 me-1"></i>
+                                @lang('messages.user.index.add')
+                            </a>
+                            <!--end::Add user-->
+                        </div>
+                        <!--end::Toolbar-->
+                    </div>
+                    <!--end::Card toolbar-->
                 </div>
                 <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
                     <!--begin::Table-->
-                    <livewire:user-table/>
+                    <livewire:user-table />
                     <!--end::Table-->
                 </div>
                 <!--end::Card body-->

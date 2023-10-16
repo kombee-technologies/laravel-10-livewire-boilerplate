@@ -50,6 +50,7 @@ return [
 
         'index' => [
           'header_title' => 'Users List',
+          'add' => 'Add'
         ],
 
     ],
