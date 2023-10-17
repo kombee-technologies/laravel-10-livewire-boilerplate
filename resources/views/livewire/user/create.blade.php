@@ -153,9 +153,53 @@
                             <x-input-error for="user.city_id" />
                         </div>
 
+                        <div class="col-md-6">
+                            <x-label for="dob" class="required" value="{{ __('Birthday') }}" />
+                            <x-input type="text" wire:model="user.dob" id="kt_datepicker_1" />
+                            <x-input-error for="user.dob" />
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <x-label for="dob" class="required" value="{{ __('Gender') }}" />
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" type="radio" wire:model="user.gender" value="0" id="flexRadioDefault"/>
+                                <label class="form-check-label" for="flexRadioDefault">
+                                    Female
+                                </label>&nbsp;&nbsp;
+
+                                <input class="form-check-input" type="radio" wire:model="user.gender" value="1" id="flexRadioDefault"/>
+                                <label class="form-check-label" for="flexRadioDefault">
+                                    Male
+                                </label>
+                            </div>
+                            <x-input-error for="user.gender" />
+                        </div>
+
+                        @if (isset($getHobbies) && !empty($getHobbies))
+                            <div class="col-md-6">
+                                <x-label for="dob" class="required" value="{{ __('Hobbies') }}" />
+                                <div class="form-check form-check-custom form-check-solid">
+                                    @foreach ($getHobbies as $key => $hobby)
+                                        <input class="form-check-input" type="checkbox" value="{{ $hobby->id }}" wire:model="hobbies" id="flexCheckDefault"/>
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            {{ $hobby->name }}
+                                        </label>
+                                    @endforeach
+                                </div>
+                                <x-input-error for="user.hobbies" />
+                                <x-input-error for="user.hobbies.*" />
+                            </div>
+                        @endif
+
+                        <div class="col-md-12">
+                            <x-label for="formFileMultiple" class="required" value="{{ __('Image Upload') }}" />
+                            <x-input type="file" max="5" id="formFileMultiple" wire:model="galleries" multiple />
+                            <x-input-error for="galleries" />
+                            <x-input-error for="galleries.*" />
+                        </div>
 
                         <div class="col-12 text-end">
-
                             <x-secondary-button wire:click="cancel()" wire:loading.attr="disabled">
                                 {{ __('Cancel') }}
                             </x-secondary-button>
@@ -164,7 +208,6 @@
                                 {{ __('Create') }}
                                 <x-button-progress-bar wire:loading/>
                             </x-button-primary>
-
                         </div>
                     </form>
                 </div>
@@ -176,3 +219,5 @@
     </div>
     <!--end::Post-->
 </div>
+@stack('scripts')
+
