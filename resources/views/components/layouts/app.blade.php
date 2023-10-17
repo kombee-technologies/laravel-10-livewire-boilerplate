@@ -76,7 +76,9 @@
            console.log("Navigating");
         })
     </script> --}}
+    @include('components.layouts.common-script')
     @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

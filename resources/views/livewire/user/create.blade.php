@@ -73,7 +73,7 @@
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
 
-                    <form class="row g-6">
+                    <form class="row g-6" wire:submit="store">
 
                         <div class="col-md-6">
                             <x-label for="first-name" class="required" value="{{ __('First name') }}" />
@@ -113,43 +113,40 @@
 
                         <div class="col-md-4">
                             <x-label for="country_id" class="required" value="{{ __('Country') }}" />
-                            <select class="form-select" wire:model="user.country_id" wire:change="getCountryStates"
-                                data-control="select2" data-placeholder="Select an option">
-                                <option value="">-- Select Country --</option>
-                                @if (isset($countries) && !empty($countries))
+                            <x-select-2 wire:ignore wire:model="user.country_id" data-allow-clear="true" id="country_id" placeholder="Select country">
+                                <option value="">Select country</option>
+                                @if (!empty($countries))
                                     @foreach ($countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->name }}</option>
                                     @endforeach
                                 @endif
-                            </select>
+                            </x-select-2>
                             <x-input-error for="user.country_id" />
                         </div>
 
                         <div class="col-md-4">
                             <x-label for="state_id" class="required" value="{{ __('State') }}" />
-                            <select class="form-select" wire:model="user.state_id" wire:change="getStateCities"
-                                data-control="select2" data-placeholder="Select an option">
-                                <option value="">-- Select State --</option>
-                                @if (isset($states) && !empty($states))
+                            <x-select-2 wire:model="user.state_id" data-allow-clear="true" id="state_id" placeholder="Select state">
+                                <option value="">Select state</option>
+                                @if (!empty($states))
                                     @foreach ($states as $state)
-                                        <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                    <option value="{{ $state->id }}">{{ $state->name }}</option>
                                     @endforeach
                                 @endif
-                            </select>
+                            </x-select-2>
                             <x-input-error for="user.state_id" />
                         </div>
 
                         <div class="col-md-4">
                             <x-label for="city_id" class="required" value="{{ __('City') }}" />
-                            <select class="form-select" wire:model="user.city_id" data-control="select2"
-                                data-placeholder="Select an option">
-                                <option value="">-- Select City --</option>
-                                @if (isset($cities) && !empty($cities))
+                            <x-select-2 wire:model="user.city_id" data-allow-clear="true" id="city_id" placeholder="Select city">
+                                <option value="">Select state</option>
+                                @if (!empty($cities))
                                     @foreach ($cities as $city)
                                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                                     @endforeach
                                 @endif
-                            </select>
+                            </x-select-2>
                             <x-input-error for="user.city_id" />
                         </div>
 
@@ -206,7 +203,7 @@
 
                             <x-button-primary>
                                 {{ __('Create') }}
-                                <x-button-progress-bar wire:loading/>
+                                <x-button-progress-bar wire:loading wire:ignore/>
                             </x-button-primary>
                         </div>
                     </form>
@@ -219,5 +216,4 @@
     </div>
     <!--end::Post-->
 </div>
-@stack('scripts')
 
