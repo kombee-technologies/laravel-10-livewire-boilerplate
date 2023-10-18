@@ -76,45 +76,40 @@
                     <form class="row g-6" wire:submit="store">
 
                         <div class="col-md-6">
-                            <x-label for="first-name" class="required" value="{{ __('First name') }}" />
+                            <x-label for="first-name" class="required" value="{{ __('messages.user.create.label_first_name') }}" />
                             <x-input type="text" wire:model="user.first_name" autofocus />
                             <x-input-error for="user.first_name" />
                         </div>
 
                         <div class="col-md-6">
-                            <x-label for="last-name" class="required" value="{{ __('Last name') }}" />
+                            <x-label for="last-name" class="required" value="{{ __('messages.user.create.label_last_name') }}" />
                             <x-input type="text" wire:model="user.last_name" />
                             <x-input-error for="user.last_name" />
                         </div>
 
                         <div class="col-md-6">
-                            <x-label for="email-address" class="required" value="{{ __('Email') }}" />
+                            <x-label for="email-address" class="required" value="{{ __('messages.user.create.label_email') }}" />
                             <x-input type="email" wire:model="user.email" />
                             <x-input-error for="user.email" />
                         </div>
 
                         <div class="col-md-6">
-                            <x-label for="mobile_no" class="required" value="{{ __('Mobile No') }}" />
+                            <x-label for="mobile_no" class="required" value="{{ __('messages.user.create.label_mobile_no') }}" />
                             <x-input type="text" wire:model="user.mobile_no" />
                             <x-input-error for="user.mobile_no" />
                         </div>
 
-                        <div class="col-md-12">
-                            <x-label for="mobile_no" class="required" value="{{ __('Mobile No') }}" />
-                            <x-input type="text" wire:model="user.mobile_no" />
-                            <x-input-error for="user.mobile_no" />
-                        </div>
 
                         <div class="col-md-12">
-                            <x-label for="address" class="required" value="{{ __('Address') }}" />
+                            <x-label for="address" class="required" value="{{ __('messages.user.create.label_address') }}" />
                             <x-textarea wire:model="user.address" />
                             <x-input-error for="user.address" />
                         </div>
 
                         <div class="col-md-4">
-                            <x-label for="country_id" class="required" value="{{ __('Country') }}" />
-                            <x-select-2 wire:ignore wire:model="user.country_id" data-allow-clear="true" id="country_id" placeholder="Select country">
-                                <option value="">Select country</option>
+                            <x-label for="country_id" class="required" value="{{ __('messages.user.create.label_country') }}" />
+                            <x-select-2 wire:ignore wire:model="user.country_id" data-allow-clear="true" id="country_id" placeholder="{{ __('messages.user.create.placeholder_country') }}">
+                                <option value="">{{ __('messages.user.create.placeholder_country') }}</option>
                                 @if (!empty($countries))
                                     @foreach ($countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->name }}</option>
@@ -125,9 +120,9 @@
                         </div>
 
                         <div class="col-md-4">
-                            <x-label for="state_id" class="required" value="{{ __('State') }}" />
-                            <x-select-2 wire:model="user.state_id" data-allow-clear="true" id="state_id" placeholder="Select state">
-                                <option value="">Select state</option>
+                            <x-label for="state_id" class="required" value="{{ __('messages.user.create.label_state') }}" />
+                            <x-select-2 wire:model="user.state_id" data-allow-clear="true" id="state_id" placeholder="{{ __('messages.user.create.placeholder_state') }}">
+                                <option value="">{{ __('messages.user.create.placeholder_state') }}</option>
                                 @if (!empty($states))
                                     @foreach ($states as $state)
                                     <option value="{{ $state->id }}">{{ $state->name }}</option>
@@ -138,9 +133,9 @@
                         </div>
 
                         <div class="col-md-4">
-                            <x-label for="city_id" class="required" value="{{ __('City') }}" />
-                            <x-select-2 wire:model="user.city_id" data-allow-clear="true" id="city_id" placeholder="Select city">
-                                <option value="">Select state</option>
+                            <x-label for="city_id" class="required" value="{{ __('messages.user.create.label_city') }}" />
+                            <x-select-2 wire:model="user.city_id" data-allow-clear="true" id="city_id" placeholder="{{ __('messages.user.create.placeholder_city') }}">
+                                <option value="">{{ __('messages.user.create.placeholder_city') }}</option>
                                 @if (!empty($cities))
                                     @foreach ($cities as $city)
                                         <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -151,14 +146,14 @@
                         </div>
 
                         <div class="col-md-6">
-                            <x-label for="dob" class="required" value="{{ __('Birthday') }}" />
+                            <x-label for="dob" class="required" value="{{ __('messages.user.create.label_birthday') }}" />
                             <x-input type="text" wire:model="user.dob" id="kt_datepicker_1" />
                             <x-input-error for="user.dob" />
                         </div>
 
 
                         <div class="col-md-6">
-                            <x-label for="dob" class="required" value="{{ __('Gender') }}" />
+                            <x-label for="dob" class="required" value="{{ __('messages.user.create.label_gender') }}" />
                             <div class="form-check form-check-custom form-check-solid">
                                 <input class="form-check-input" type="radio" wire:model="user.gender" value="0" id="flexRadioDefault"/>
                                 <label class="form-check-label" for="flexRadioDefault">
@@ -175,7 +170,7 @@
 
                         @if (isset($getHobbies) && !empty($getHobbies))
                             <div class="col-md-6">
-                                <x-label for="dob" class="required" value="{{ __('Hobbies') }}" />
+                                <x-label for="dob" class="required" value="{{ __('messages.user.create.label_hobbies') }}" />
                                 <div class="form-check form-check-custom form-check-solid">
                                     @foreach ($getHobbies as $key => $hobby)
                                         <input class="form-check-input" type="checkbox" value="{{ $hobby->id }}" wire:model="hobbies" id="flexCheckDefault"/>
@@ -190,7 +185,7 @@
                         @endif
 
                         <div class="col-md-12">
-                            <x-label for="formFileMultiple" class="required" value="{{ __('Image Upload') }}" />
+                            <x-label for="formFileMultiple" class="required" value="{{ __('messages.user.create.label_image_upload') }}" />
                             <x-input type="file" max="5" id="formFileMultiple" wire:model="galleries" multiple />
                             <x-input-error for="galleries" />
                             <x-input-error for="galleries.*" />
@@ -198,12 +193,12 @@
 
                         <div class="col-12 text-end">
                             <x-secondary-button wire:click="cancel()" wire:loading.attr="disabled">
-                                {{ __('Cancel') }}
+                                {{ __('messages.cancel_button_text') }}
                             </x-secondary-button>
 
                             <x-button-primary>
-                                {{ __('Create') }}
-                                <x-button-progress-bar wire:loading wire:ignore/>
+                                {{ __('messages.create_button_text') }}
+                                <x-button-progress-bar wire:loading/>
                             </x-button-primary>
                         </div>
                     </form>
