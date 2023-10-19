@@ -17,7 +17,7 @@
     });
 
     window.addEventListener('render-select2', event => {
-        //$('.js-example-templating').select2();
+         //this.select2Init();
     });
 
     /* date picker */
@@ -25,6 +25,35 @@
         dateFormat: "Y-m-d",
         maxDate: new Date()
     });
+
+    $(document).ready(function () {
+       //this.select2Init();
+    });
+
+    select2Init: function() {
+        $(documemt).find('.custome-select2').each(function () {
+
+            var option = {
+              with: '100%',
+            };
+
+            if($(this).attr('data-hide-search') === "true"){
+                option.minimumResultsForSearch = -1;
+                option.closeOnSelect = false;
+
+            }
+
+            if($(this).attr('data-placeholder')){
+                option.placeholder = $(this).attr('data-placeholder');
+            }
+
+            $(this).select2(option).on('change', function(e) {
+                let livewire = $(this).data('livewire');
+                let variable = $(this).attr('wire:model');
+                eval(livewire).set(variable, $(this).val());
+            });
+        });
+    }
 
 </script>
 
