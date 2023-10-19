@@ -61,11 +61,7 @@
                     <div class="card-toolbar">
                         <!--begin::Toolbar-->
                         <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                            <!--begin::Add user-->
-                            <a href="/users/create"  class="btn btn-primary" wire:navigate><i class="las la-plus fs-1 me-1"></i>
-                                @lang('messages.user.index.add')
-                            </a>
-                            <!--end::Add user-->
+
                         </div>
                         <!--end::Toolbar-->
                     </div>

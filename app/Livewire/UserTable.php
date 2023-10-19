@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
@@ -33,7 +34,14 @@ final class UserTable extends PowerGridComponent
 
     public function header(): array
     {
-        return [];
+        return [
+            Button::add('create-user')
+                ->render(function () {
+                    return Blade::render(<<<HTML
+                          <a href="/users/create"  class="btn btn-light-primary" wire:navigate><i class="las la-plus fs-2 me-2"></i></a>
+                    HTML);
+                }),
+        ];
     }
 
     public function setUp(): array
@@ -82,12 +90,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('mobile_no')
             ->addColumn('user_type')
             ->addColumn('gender', function (User $model) {
-                if($model->gender == '0'){
-                    $gender = 'Female';
-                } else {
-                    $gender = 'Male';
-                }
-                return $gender;
+                return ($model->gender ? 'Male' : 'Female');
             })
             ->addColumn('dob_formatted', fn (User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
             ->addColumn('address')
@@ -95,12 +98,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('state_id')
             ->addColumn('city_id')
             ->addColumn('status', function (User $model) {
-                if($model->status == '0'){
-                    $gender = 'Inactive';
-                } else {
-                    $gender = 'Active';
-                }
-                return $gender;
+                return ($model->status ? 'Active' : 'Inactive');
             })
             ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
@@ -112,31 +110,38 @@ final class UserTable extends PowerGridComponent
                 ->hidden(true, false),
             Column::make('First name', 'first_name')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->visibleInExport(true),
 
             Column::make('Last name', 'last_name')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->visibleInExport(true),
 
             Column::make('Email', 'email')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->visibleInExport(true),
 
             Column::make('Mobile no', 'mobile_no')
                 //->sortable()
-                ->searchable(),
+                ->searchable()
+                ->visibleInExport(true),
 
             Column::make('Gender', 'gender')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->visibleInExport(true),
 
-            Column::make('Dob', 'dob_formatted', 'dob'),
+            Column::make('Dob', 'dob_formatted', 'dob')
+                ->visibleInExport(true),
                 //->sortable(),
 
             Column::make('Address', 'address')
                 //->sortable()
                 //->searchable()
-                ->hidden(true, false),
+                ->hidden(true, false)
+                ->visibleInExport(true),
 
             Column::make('Country id', 'country_id')
                 ->hidden(true, false),
@@ -181,11 +186,25 @@ final class UserTable extends PowerGridComponent
     public function actions(\App\Models\User $row): array
     {
         return [
-            Button::add('edit')
+            /*Button::add('edit')
                 ->slot('Edit: '.$row->id)
                 ->id()
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->dispatch('edit', ['rowId' => $row->id])*/
+
+            Button::add('edit-user')
+                ->render(function () {
+                    return Blade::render(<<<HTML
+                          <a href="/users/create" title="Edit" wire:navigate><i class="las la-edit fs-2 me-2"></i></a>
+                    HTML);
+                }),
+
+            Button::add('delete-user')
+                ->render(function () {
+                    return Blade::render(<<<HTML
+                          <a href="/users/create"  title="Delete" wire:navigate><i class="las la-trash fs-2 me-2"></i></a>
+                    HTML);
+                }),
         ];
     }
 
