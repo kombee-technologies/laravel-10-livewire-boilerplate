@@ -21,6 +21,21 @@ final class UserTable extends PowerGridComponent
 {
     use WithExport;
 
+    protected function getListeners(): array
+    {
+        return array_merge(
+            parent::getListeners(),
+            [
+                'refreshTable'   => '$refresh',
+            ]
+        );
+    }
+
+    public function header(): array
+    {
+        return [];
+    }
+
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -45,7 +60,7 @@ final class UserTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return User::query();
+        return User::query()->where('user_type', '!=', '0');
     }
 
     public function relationSearch(): array
@@ -66,13 +81,27 @@ final class UserTable extends PowerGridComponent
             ->addColumn('email')
             ->addColumn('mobile_no')
             ->addColumn('user_type')
-            ->addColumn('gender')
+            ->addColumn('gender', function (User $model) {
+                if($model->gender == '0'){
+                    $gender = 'Female';
+                } else {
+                    $gender = 'Male';
+                }
+                return $gender;
+            })
             ->addColumn('dob_formatted', fn (User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
             ->addColumn('address')
             ->addColumn('country_id')
             ->addColumn('state_id')
             ->addColumn('city_id')
-            ->addColumn('status')
+            ->addColumn('status', function (User $model) {
+                if($model->status == '0'){
+                    $gender = 'Inactive';
+                } else {
+                    $gender = 'Active';
+                }
+                return $gender;
+            })
             ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
@@ -94,24 +123,19 @@ final class UserTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Mobile no', 'mobile_no')
-                ->sortable()
+                //->sortable()
                 ->searchable(),
-
-            Column::make('User type', 'user_type')
-                ->sortable()
-                ->searchable()
-                ->hidden(true, false),
 
             Column::make('Gender', 'gender')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Dob', 'dob_formatted', 'dob')
-                ->sortable(),
+            Column::make('Dob', 'dob_formatted', 'dob'),
+                //->sortable(),
 
             Column::make('Address', 'address')
-                ->sortable()
-                ->searchable()
+                //->sortable()
+                //->searchable()
                 ->hidden(true, false),
 
             Column::make('Country id', 'country_id')

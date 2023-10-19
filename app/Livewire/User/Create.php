@@ -44,8 +44,8 @@ class Create extends Component
             'user.gender' =>  ['required', Rule::in([0, 1])],
             'user.dob' => 'required|date|date_format:Y-m-d',
             'user.country_id' => 'required|integer|exists:countries,id,deleted_at,NULL',
-            'user.state_id' => 'required|integer|exists:states,id,deleted_at,NULL',
-            'user.city_id' => 'required|integer|exists:cities,id,deleted_at,NULL',
+            //'user.state_id' => 'required|integer|exists:states,id,deleted_at,NULL',
+            //'user.city_id' => 'required|integer|exists:cities,id,deleted_at,NULL',
             'hobbies' => 'required|exists:hobbies,id,deleted_at,NULL|array',
             'hobbies.*' => 'required|integer',
             'galleries' => 'required|array|max:5',
@@ -82,6 +82,9 @@ class Create extends Component
         $this->user->city_id = "";
     }
 
+    /**
+     * @return null
+     */
     public function store()
     {
         $this->validate();
@@ -94,29 +97,38 @@ class Create extends Component
             'gender' => $this->user->gender,
             'dob' => $this->user->dob,
             'country_id' => $this->user->country_id,
-            'state_id' => $this->user->state_id,
-            'city_id' => $this->user->city_id,
+            //'state_id' => $this->user->state_id,
+            //'city_id' => $this->user->city_id,
             'address' => $this->user->address,
         ];
 
         /* common code for user data insert into database */
         $user = Helper::userStore($userData);
 
-        /* if ($this->role_id == config('constants.users_roles_ids.client')) {
-            Mail::to($this->user->email)->queue(new WelcomeUser($this->user));
-        } */
+        /* Insert multiple user galleries */
+        Helper::galleriesStore($user, $this->galleries);
+
+        /* Insert multiple hobbies */
+        Helper::hobbiesStore($user, $this->hobbies);
+
+
+        //$this->dispatch('alert', type: 'success', message: __('messages.user.messages.store'));
+        session()->flash('success', __('messages.user.messages.store'));
+        return $this->redirect('/users', navigate: true);
+
     }
 
     /**
-     * cancel
-     *
-     * @return void
+     * @return null
      */
     public function cancel()
     {
         return $this->redirect('/users', navigate: true);
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     */
     public function render()
     {
         return view('livewire.user.create', ['getHobbies' =>  Hobby::all()]);

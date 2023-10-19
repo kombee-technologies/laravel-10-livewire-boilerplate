@@ -72,6 +72,10 @@ return [
             'placeholder_country' => 'Select country',
             'placeholder_state' => 'Select state',
             'placeholder_city' => 'Select city',
+        ],
+
+        'messages' => [
+          'store' => 'User Created Successfully.'
         ]
 
     ],

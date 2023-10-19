@@ -72,6 +72,11 @@
                     <!--end::Card toolbar-->
                 </div>
                 <!--end::Card header-->
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
                     <!--begin::Table-->
