@@ -11,6 +11,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Traits\UploadTrait;
 use Illuminate\Validation\Rule;
+use App\Helpers\Helper;
 
 class Create extends Component
 {
@@ -98,9 +99,22 @@ class Create extends Component
             'address' => $this->user->address,
         ];
 
+        /* common code for user data insert into database */
+        $user = Helper::userStore($userData);
+
         /* if ($this->role_id == config('constants.users_roles_ids.client')) {
             Mail::to($this->user->email)->queue(new WelcomeUser($this->user));
         } */
+    }
+
+    /**
+     * cancel
+     *
+     * @return void
+     */
+    public function cancel()
+    {
+        return $this->redirect('/users', navigate: true);
     }
 
     public function render()
