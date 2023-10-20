@@ -30,7 +30,7 @@
        //this.select2Init();
     });
 
-    select2Init: function() {
+    /* select2Init: function() {
         $(documemt).find('.custome-select2').each(function () {
 
             var option = {
@@ -53,8 +53,16 @@
                 eval(livewire).set(variable, $(this).val());
             });
         });
-    }
+    } */
 
+</script>
+
+<script>
+	ClassicEditor
+		.create( document.querySelector( '#kt_docs_ckeditor_classic' ) )
+		.catch( error => {
+			console.error( error );
+		} );
 </script>
 
 

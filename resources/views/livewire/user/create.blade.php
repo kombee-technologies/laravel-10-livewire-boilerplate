@@ -100,48 +100,48 @@
                         </div>
 
 
-                        <div class="col-md-12">
+                        <div class="col-md-12" wire:ignore>
                             <x-label for="address" class="required" value="{{ __('messages.user.create.label_address') }}" />
-                            <x-textarea wire:model="user.address" />
-                            <x-input-error for="user.address" />
+                            <x-textarea wire:model="user.address" id="kt_docs_ckeditor_classic"/>
                         </div>
+                        <x-input-error for="user.address" />
 
                         <div class="col-md-4">
                             <x-label for="country_id" class="required" value="{{ __('messages.user.create.label_country') }}" />
-                            <x-select2 variable="$user.country_id" data-placeholder="{{ __('messages.user.create.placeholder_country') }}">
-                                <option value="" selected>{{ __('messages.user.create.placeholder_country') }}</option>
+                            <x-select-2 wire:model="user.country_id" id="country_id" placeholder="{{ __('messages.user.create.placeholder_country') }}">
+                                <option value="">{{ __('messages.user.create.placeholder_country') }}</option>
                                 @if (!empty($countries))
                                     @foreach ($countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->name }}</option>
                                     @endforeach
                                 @endif
-                            </x-select2>
+                            </x-select-2>
                             <x-input-error for="user.country_id" />
                         </div>
 
                         <div class="col-md-4">
                             <x-label for="state_id" class="required" value="{{ __('messages.user.create.label_state') }}" />
-                            <x-select2 variable="$user.state_id" data-placeholder="{{ __('messages.user.create.placeholder_state') }}">
-                                <option value="" selected>{{ __('messages.user.create.placeholder_state') }}</option>
+                            <x-select-2 wire:model="user.state_id" data-allow-clear="true" id="state_id" placeholder="{{ __('messages.user.create.placeholder_state') }}">
+                                <option value="">{{ __('messages.user.create.placeholder_state') }}</option>
                                 @if (!empty($states))
                                     @foreach ($states as $state)
                                     <option value="{{ $state->id }}">{{ $state->name }}</option>
                                     @endforeach
                                 @endif
-                            </x-select2>
+                            </x-select-2>
                             <x-input-error for="user.state_id" />
                         </div>
 
                         <div class="col-md-4">
                             <x-label for="city_id" class="required" value="{{ __('messages.user.create.label_city') }}" />
-                            <x-select2 variable="$user.city_id" data-placeholder="{{ __('messages.user.create.placeholder_city') }}">
-                                <option value="" selected>{{ __('messages.user.create.placeholder_city') }}</option>
+                            <x-select-2 wire:model="user.city_id" data-allow-clear="true" id="city_id" placeholder="{{ __('messages.user.create.placeholder_city') }}">
+                                <option value="">{{ __('messages.user.create.placeholder_city') }}</option>
                                 @if (!empty($cities))
                                     @foreach ($cities as $city)
                                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                                     @endforeach
                                 @endif
-                            </x-select2>
+                            </x-select-2>
                             <x-input-error for="user.city_id" />
                         </div>
 
