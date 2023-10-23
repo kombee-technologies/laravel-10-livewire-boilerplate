@@ -28,7 +28,6 @@ final class UserTable extends PowerGridComponent
             [
                 'refreshTable' => '$refresh',
                 'bulkDelete',
-                'bulkActionEvent'
             ]
         );
     }
@@ -51,19 +50,6 @@ final class UserTable extends PowerGridComponent
                 ->class('btn btn-outline btn-light-danger')
                 ->dispatch('bulkDelete', []),
         ];
-    }
-
-    public function bulkActionEvent(): void
-    {
-        if (count($this->checkboxValues) == 0) {
-            $this->dispatchBrowserEvent('showAlert', ['message' => 'You must select at least one item!']);
-
-            return;
-        }
-
-        $ids = implode(', ', $this->checkboxValues);
-
-        $this->dispatchBrowserEvent('showAlert', ['message' => 'You have selected IDs: ' . $ids]);
     }
 
     public function setUp(): array
@@ -188,12 +174,12 @@ final class UserTable extends PowerGridComponent
             Filter::inputText('last_name')->operators(['contains']),
             Filter::inputText('email')->operators(['contains']),
             Filter::inputText('mobile_no')->operators(['contains']),
-            Filter::inputText('user_type')->operators(['contains']),
+            //Filter::inputText('user_type')->operators(['contains']),
             Filter::inputText('gender')->operators(['contains']),
-            Filter::datepicker('dob'),
-            Filter::inputText('address')->operators(['contains']),
-            Filter::inputText('status')->operators(['contains']),
-            Filter::datetimepicker('created_at'),
+            //Filter::datepicker('dob'),
+            //Filter::inputText('address')->operators(['contains']),
+            //Filter::inputText('status')->operators(['contains']),
+            //Filter::datetimepicker('created_at'),
         ];
     }
 
