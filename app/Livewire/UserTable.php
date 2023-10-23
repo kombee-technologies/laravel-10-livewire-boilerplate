@@ -3,13 +3,13 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
+use PowerComponents\LivewirePowerGrid\Facades\Rule as FacadesRule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
@@ -17,6 +17,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Responsive;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use PowerComponents\LivewirePowerGrid\Rules\Rule;
 
 final class UserTable extends PowerGridComponent
 {
@@ -27,10 +28,15 @@ final class UserTable extends PowerGridComponent
         return array_merge(
             parent::getListeners(),
             [
-                'refreshTable'   => '$refresh',
+                'refreshTable' => '$refresh',
+                'bulkDelete',
+                'bulkActionEvent'
             ]
         );
     }
+
+    public string $sortField = 'id';
+    public string $sortDirection = 'desc';
 
     public function header(): array
     {
@@ -41,7 +47,25 @@ final class UserTable extends PowerGridComponent
                           <a href="/users/create"  class="btn btn-light-primary" wire:navigate><i class="las la-plus fs-2 me-2"></i></a>
                     HTML);
                 }),
+
+            Button::add('bulk-delete')
+                ->slot(__('Bulk delete (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)'))
+                ->class('cursor-pointer block bg-white-200 text-gray-700 ')
+                ->dispatch('bulkDelete', []),
         ];
+    }
+
+    public function bulkActionEvent(): void
+    {
+        if (count($this->checkboxValues) == 0) {
+            $this->dispatchBrowserEvent('showAlert', ['message' => 'You must select at least one item!']);
+
+            return;
+        }
+
+        $ids = implode(', ', $this->checkboxValues);
+
+        $this->dispatchBrowserEvent('showAlert', ['message' => 'You have selected IDs: ' . $ids]);
     }
 
     public function setUp(): array
@@ -51,14 +75,12 @@ final class UserTable extends PowerGridComponent
 
         return [
 
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            /* Exportable::make('export')
+            ->striped()
+            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), */
 
             Header::make()->showSearchInput()
-                ->showToggleColumns()
-                //->withoutLoading()
-                ->includeViewOnTop('components.datatable.header-top'),
+                ->showToggleColumns(),
 
             Footer::make()
                 ->showPerPage()
@@ -82,8 +104,8 @@ final class UserTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('first_name')
 
-           /** Example of custom column using a closure **/
-            ->addColumn('first_name_lower', fn (User $model) => strtolower(e($model->first_name)))
+        /** Example of custom column using a closure **/
+            ->addColumn('first_name_lower', fn(User $model) => strtolower(e($model->first_name)))
 
             ->addColumn('last_name')
             ->addColumn('email')
@@ -92,7 +114,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('gender', function (User $model) {
                 return ($model->gender ? 'Male' : 'Female');
             })
-            ->addColumn('dob_formatted', fn (User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
+            ->addColumn('dob_formatted', fn(User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
             ->addColumn('address')
             ->addColumn('country_id')
             ->addColumn('state_id')
@@ -100,7 +122,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('status', function (User $model) {
                 return ($model->status ? 'Active' : 'Inactive');
             })
-            ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn(User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     public function columns(): array
@@ -124,7 +146,7 @@ final class UserTable extends PowerGridComponent
                 ->visibleInExport(true),
 
             Column::make('Mobile no', 'mobile_no')
-                //->sortable()
+            //->sortable()
                 ->searchable()
                 ->visibleInExport(true),
 
@@ -135,11 +157,11 @@ final class UserTable extends PowerGridComponent
 
             Column::make('Dob', 'dob_formatted', 'dob')
                 ->visibleInExport(true),
-                //->sortable(),
+            //->sortable(),
 
             Column::make('Address', 'address')
-                //->sortable()
-                //->searchable()
+            //->sortable()
+            //->searchable()
                 ->hidden(true, false)
                 ->visibleInExport(true),
 
@@ -157,7 +179,7 @@ final class UserTable extends PowerGridComponent
             Column::make('Created at', 'created_at_formatted', 'created_at')
                 ->sortable(),
 
-            Column::action('Action')
+            Column::action('Action'),
         ];
     }
 
@@ -180,17 +202,17 @@ final class UserTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions(\App\Models\User $row): array
     {
         return [
             /*Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])*/
+            ->slot('Edit: '.$row->id)
+            ->id()
+            ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+            ->dispatch('edit', ['rowId' => $row->id])*/
 
             Button::add('edit-user')
                 ->render(function () {
@@ -209,14 +231,24 @@ final class UserTable extends PowerGridComponent
     }
 
     /*
+    |--------------------------------------------------------------------------
+    |  Bulk delete button
+    |--------------------------------------------------------------------------
+     */
+    public function bulkDelete(): void
+    {
+
+        if (count($this->checkboxValues) == 0) {
+            $this->dispatch('showAlert', type: 'warning', message: __('You must select at least one item!'), buttonColor:'btn btn-warning');
+            return;
+        }
+    }
+
     public function actionRules($row): array
     {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
+        return [
+
         ];
     }
-    */
+
 }

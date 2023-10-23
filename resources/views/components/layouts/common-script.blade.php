@@ -17,7 +17,7 @@
     });
 
     window.addEventListener('render-select2', event => {
-         //this.select2Init();
+        //this.select2Init();
     });
 
     /* date picker */
@@ -26,8 +26,8 @@
         maxDate: new Date()
     });
 
-    $(document).ready(function () {
-       //this.select2Init();
+    $(document).ready(function() {
+        //this.select2Init();
     });
 
     /* select2Init: function() {
@@ -54,15 +54,33 @@
             });
         });
     } */
-
 </script>
 
 <script>
-	ClassicEditor
-		.create( document.querySelector( '#kt_docs_ckeditor_classic' ) )
-		.catch( error => {
-			console.error( error );
-		} );
+    ClassicEditor
+        .create(document.querySelector('#kt_docs_ckeditor_classic'))
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 
-
+<script>
+    window.addEventListener('showAlert', event => {
+        Swal.fire({
+                text: event.detail.message,
+                icon: event.detail.type,
+                buttonsStyling: false,
+                //showCancelButton: true,
+                confirmButtonText: "Ok, got it!",
+                customClass: {
+                    confirmButton: event.detail.buttonColor,
+                    //cancelButton: 'btn btn-danger'
+                }
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.livewire.emit('remove');
+                }
+            });
+    })
+</script>
