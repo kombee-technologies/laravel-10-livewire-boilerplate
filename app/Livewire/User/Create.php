@@ -44,8 +44,8 @@ class Create extends Component
             'user.gender' =>  ['required', Rule::in([0, 1])],
             'user.dob' => 'required|date|date_format:Y-m-d',
             'user.country_id' => 'required|integer|exists:countries,id,deleted_at,NULL',
-            //'user.state_id' => 'required|integer|exists:states,id,deleted_at,NULL',
-            //'user.city_id' => 'required|integer|exists:cities,id,deleted_at,NULL',
+            'user.state_id' => 'required|integer|exists:states,id,deleted_at,NULL',
+            'user.city_id' => 'required|integer|exists:cities,id,deleted_at,NULL',
             'hobbies' => 'required|exists:hobbies,id,deleted_at,NULL|array',
             'hobbies.*' => 'required|integer',
             'galleries' => 'required|array|max:5',
@@ -97,8 +97,8 @@ class Create extends Component
             'gender' => $this->user->gender,
             'dob' => $this->user->dob,
             'country_id' => $this->user->country_id,
-            //'state_id' => $this->user->state_id,
-            //'city_id' => $this->user->city_id,
+            'state_id' => $this->user->state_id,
+            'city_id' => $this->user->city_id,
             'address' => $this->user->address,
         ];
 

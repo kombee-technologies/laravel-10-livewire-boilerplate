@@ -100,11 +100,12 @@
                         </div>
 
 
-                        <div class="col-md-12" wire:ignore>
+                        <div class="col-md-12">
                             <x-label for="address" class="required" value="{{ __('messages.user.create.label_address') }}" />
                             <x-textarea wire:model="user.address" id="kt_docs_ckeditor_classic"/>
+                            <x-input-error for="user.address" />
                         </div>
-                        <x-input-error for="user.address" />
+
 
                         <div class="col-md-4">
                             <x-label for="country_id" class="required" value="{{ __('messages.user.create.label_country') }}" />
@@ -121,7 +122,7 @@
 
                         <div class="col-md-4">
                             <x-label for="state_id" class="required" value="{{ __('messages.user.create.label_state') }}" />
-                            <x-select-2 wire:model="user.state_id" data-allow-clear="true" id="state_id" placeholder="{{ __('messages.user.create.placeholder_state') }}">
+                            <x-select-2 wire:model="user.state_id" id="state_id" placeholder="{{ __('messages.user.create.placeholder_state') }}">
                                 <option value="">{{ __('messages.user.create.placeholder_state') }}</option>
                                 @if (!empty($states))
                                     @foreach ($states as $state)
