@@ -60,7 +60,7 @@
     ClassicEditor
         .create(document.querySelector('#kt_docs_ckeditor_classic'))
         .catch(error => {
-            console.error(error);
+            //console.error(error);
         });
 </script>
 

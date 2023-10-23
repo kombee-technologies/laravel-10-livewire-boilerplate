@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule as FacadesRule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
@@ -17,7 +16,6 @@ use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Responsive;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
-use PowerComponents\LivewirePowerGrid\Rules\Rule;
 
 final class UserTable extends PowerGridComponent
 {
@@ -44,13 +42,13 @@ final class UserTable extends PowerGridComponent
             Button::add('create-user')
                 ->render(function () {
                     return Blade::render(<<<HTML
-                          <a href="/users/create"  class="btn btn-light-primary" wire:navigate><i class="las la-plus fs-2 me-2"></i></a>
+                          <a href="/users/create"  class="btn btn-outline btn-light-primary" wire:navigate><i class="las la-plus fs-2 me-2"></i></a>
                     HTML);
                 }),
 
             Button::add('bulk-delete')
-                ->slot(__('Bulk delete (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)'))
-                ->class('cursor-pointer block bg-white-200 text-gray-700 ')
+                ->slot(__('<i class="las la-trash"></i> (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)'))
+                ->class('btn btn-outline btn-light-danger')
                 ->dispatch('bulkDelete', []),
         ];
     }
@@ -242,6 +240,9 @@ final class UserTable extends PowerGridComponent
             $this->dispatch('showAlert', type: 'warning', message: __('You must select at least one item!'), buttonColor:'btn btn-warning');
             return;
         }
+
+        $ids = implode(', ', $this->checkboxValues);
+        $this->dispatch('showAlert', type: 'info', message: __('You have selected IDs: ' . $ids), buttonColor:'btn btn-info');
     }
 
     public function actionRules($row): array
