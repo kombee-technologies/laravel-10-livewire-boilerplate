@@ -13,9 +13,3 @@
 <script src="{!! asset('assets/js/custom/apps/chat/chat.js') !!}"></script>
 <script src="{!! asset('assets/js/custom/modals/create-app.js') !!}"></script>
 <script src="{!! asset('assets/js/custom/modals/upgrade-plan.js') !!}"></script>
-<script>
-$("#kt_datepicker_1").flatpickr({
-    dateFormat: "Y-m-d",
-    maxDate: new Date()
-});
-</script>

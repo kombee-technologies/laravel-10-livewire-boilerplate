@@ -28,6 +28,7 @@ final class UserTable extends PowerGridComponent
             [
                 'refreshTable' => '$refresh',
                 'bulkDelete',
+                'deleteConfirmation'
             ]
         );
     }
@@ -46,7 +47,7 @@ final class UserTable extends PowerGridComponent
                 }),
 
             Button::add('bulk-delete')
-                ->slot(__('<i class="las la-trash"></i> (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)'))
+                ->slot(__('<i class="las la-trash fs-2 me-2"></i> (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)'))
                 ->class('btn btn-outline btn-light-danger')
                 ->dispatch('bulkDelete', []),
         ];
@@ -201,16 +202,21 @@ final class UserTable extends PowerGridComponent
             Button::add('edit-user')
                 ->render(function () {
                     return Blade::render(<<<HTML
-                          <a href="/users/create" title="Edit" wire:navigate><i class="las la-edit fs-2 me-2"></i></a>
+                          <button title="Edit" wire:navigate><i class="las la-edit fs-2 me-2"></i></button>
                     HTML);
                 }),
 
             Button::add('delete-user')
+                ->slot('<i class="las la-trash fs-2 me-2"></i>')
+                ->class('')
+                ->dispatchTo('App\Livewire\User\Index','deleteConfirmation', ['id' => $row->id]),
+
+            /* Button::add('delete-user')
                 ->render(function () {
                     return Blade::render(<<<HTML
-                          <a href="/users/create"  title="Delete" wire:navigate><i class="las la-trash fs-2 me-2"></i></a>
+                          <button wire:click="dispatchTo('user.index', 'postAdded', { key: 1})"  title="Delete" wire:navigate><i class="las la-trash fs-2 me-2"></i></button>
                     HTML);
-                }),
+                }), */
         ];
     }
 
@@ -229,6 +235,10 @@ final class UserTable extends PowerGridComponent
 
         $ids = implode(', ', $this->checkboxValues);
         $this->dispatch('showAlert', type: 'info', message: __('You have selected IDs: ' . $ids), buttonColor:'btn btn-info');
+    }
+
+    public function deleteConfirmation($id){
+        //$this->dispatch('showDeleteConfirmation');
     }
 
     public function actionRules($row): array

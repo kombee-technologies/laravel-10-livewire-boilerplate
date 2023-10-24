@@ -16,18 +16,11 @@
         }
     });
 
-    window.addEventListener('render-select2', event => {
-        //this.select2Init();
-    });
 
     /* date picker */
     $("#kt_datepicker_1").flatpickr({
         dateFormat: "Y-m-d",
         maxDate: new Date()
-    });
-
-    $(document).ready(function() {
-        //this.select2Init();
     });
 
     /* select2Init: function() {
@@ -65,6 +58,7 @@
 </script>
 
 <script>
+    /* showAlert */
     window.addEventListener('showAlert', event => {
         Swal.fire({
                 text: event.detail.message,
@@ -83,4 +77,25 @@
                 }
             });
     })
+</script>
+
+<script>
+/* showAlert */
+window.addEventListener('showDeleteConfirmation', event => {
+    Swal.fire({
+        text:'Are you sure?',
+        /* text: event.detail.message,
+        icon: event.detail.type, */
+        //buttonsStyling: false,
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+
+    }).then((result) => {
+        if (result.isConfirmed) {
+            //window.livewire.emit('deleteConfirmed');
+        }
+    });
+})
 </script>
