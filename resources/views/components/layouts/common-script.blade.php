@@ -80,22 +80,36 @@
 </script>
 
 <script>
-/* showAlert */
-window.addEventListener('showDeleteConfirmation', event => {
-    Swal.fire({
-        text:'Are you sure?',
-        /* text: event.detail.message,
-        icon: event.detail.type, */
-        //buttonsStyling: false,
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
+    /* showAlert */
+    window.addEventListener('showDeleteConfirmation', event => {
+        Swal.fire({
+            text: 'Are you sure?',
+            /* text: event.detail.message,
+            icon: event.detail.type, */
+            //buttonsStyling: false,
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33'
 
-    }).then((result) => {
-        if (result.isConfirmed) {
-            //window.livewire.emit('deleteConfirmed');
-        }
-    });
-})
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Livewire.dispatch('deleteConfirmed', {
+                    id: event.detail.id
+                })
+            }
+        });
+    })
+</script>
+
+
+
+<script>
+    /* showAlert */
+    window.addEventListener('showDeleted', event => {
+        Livewire.dispatch('alert', {
+            type: 'success',
+            message: __('messages.user.messages.delete')
+        })
+    })
 </script>

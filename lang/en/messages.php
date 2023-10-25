@@ -14,9 +14,9 @@ return [
     */
 
     'side_menu' => [
-       'dashboard' => 'Dashboard',
-       'user' => 'Manage Users',
-       'label_logout' => 'Sign Out',
+        'dashboard' => 'Dashboard',
+        'user' => 'Manage Users',
+        'label_logout' => 'Sign Out',
     ],
 
     'login' => [
@@ -49,23 +49,23 @@ return [
         ],
 
         'index' => [
-          'header_title' => 'Users List',
-          'add' => 'Add'
+            'header_title' => 'Users List',
+            'add' => 'Add'
         ],
 
         'create' => [
-            'label_first_name'=> 'First name',
-            'label_last_name'=> 'Last name',
-            'label_email'=> 'Email',
-            'label_mobile_no'=> 'Mobile No',
-            'label_address'=> 'Address',
-            'label_country'=> 'Country',
-            'label_state'=> 'State',
-            'label_city'=> 'City',
-            'label_birthday'=> 'Birthday',
-            'label_gender'=> 'Gender',
-            'label_hobbies'=> 'Hobbies',
-            'label_image_upload'=> 'Image Upload',
+            'label_first_name' => 'First name',
+            'label_last_name' => 'Last name',
+            'label_email' => 'Email',
+            'label_mobile_no' => 'Mobile No',
+            'label_address' => 'Address',
+            'label_country' => 'Country',
+            'label_state' => 'State',
+            'label_city' => 'City',
+            'label_birthday' => 'Birthday',
+            'label_gender' => 'Gender',
+            'label_hobbies' => 'Hobbies',
+            'label_image_upload' => 'Image Upload',
 
 
 
@@ -75,7 +75,8 @@ return [
         ],
 
         'messages' => [
-          'store' => 'User Created Successfully.'
+            'store' => 'User Created Successfully.',
+            'delete' => 'User Deleted Successfully.',
         ]
 
     ],

@@ -89,8 +89,8 @@ final class UserTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('first_name')
 
-        /** Example of custom column using a closure **/
-            ->addColumn('first_name_lower', fn(User $model) => strtolower(e($model->first_name)))
+            /** Example of custom column using a closure **/
+            ->addColumn('first_name_lower', fn (User $model) => strtolower(e($model->first_name)))
 
             ->addColumn('last_name')
             ->addColumn('email')
@@ -99,7 +99,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('gender', function (User $model) {
                 return ($model->gender ? 'Male' : 'Female');
             })
-            ->addColumn('dob_formatted', fn(User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
+            ->addColumn('dob_formatted', fn (User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
             ->addColumn('address')
             ->addColumn('country_id')
             ->addColumn('state_id')
@@ -107,7 +107,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('status', function (User $model) {
                 return ($model->status ? 'Active' : 'Inactive');
             })
-            ->addColumn('created_at_formatted', fn(User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     public function columns(): array
@@ -131,7 +131,7 @@ final class UserTable extends PowerGridComponent
                 ->visibleInExport(true),
 
             Column::make('Mobile no', 'mobile_no')
-            //->sortable()
+                //->sortable()
                 ->searchable()
                 ->visibleInExport(true),
 
@@ -145,8 +145,8 @@ final class UserTable extends PowerGridComponent
             //->sortable(),
 
             Column::make('Address', 'address')
-            //->sortable()
-            //->searchable()
+                //->sortable()
+                //->searchable()
                 ->hidden(true, false)
                 ->visibleInExport(true),
 
@@ -209,7 +209,14 @@ final class UserTable extends PowerGridComponent
             Button::add('delete-user')
                 ->slot('<i class="las la-trash fs-2 me-2"></i>')
                 ->class('')
-                ->dispatchTo('App\Livewire\User\Index','deleteConfirmation', ['id' => $row->id]),
+                ->dispatch('deleteConfirmation', ['id' => $row->id]),
+
+            // Button::add('delete-user')
+            //     ->render(function () {
+            //         return Blade::render(<<<HTML
+            //               <button wire:confirm="Are you sure?" title="Delete"><i class="las la-trash fs-2 me-2"></i></button>
+            //         HTML);
+            //     }),
 
             /* Button::add('delete-user')
                 ->render(function () {
@@ -229,23 +236,21 @@ final class UserTable extends PowerGridComponent
     {
 
         if (count($this->checkboxValues) == 0) {
-            $this->dispatch('showAlert', type: 'warning', message: __('You must select at least one item!'), buttonColor:'btn btn-warning');
+            $this->dispatch('showAlert', type: 'warning', message: __('You must select at least one item!'), buttonColor: 'btn btn-warning');
             return;
         }
 
         $ids = implode(', ', $this->checkboxValues);
-        $this->dispatch('showAlert', type: 'info', message: __('You have selected IDs: ' . $ids), buttonColor:'btn btn-info');
+        $this->dispatch('showAlert', type: 'info', message: __('You have selected IDs: ' . $ids), buttonColor: 'btn btn-info');
     }
 
-    public function deleteConfirmation($id){
-        //$this->dispatch('showDeleteConfirmation');
+    public function deleteConfirmation($id)
+    {
+        $this->dispatch('showDeleteConfirmation', id: $id);
     }
 
     public function actionRules($row): array
     {
-        return [
-
-        ];
+        return [];
     }
-
 }
