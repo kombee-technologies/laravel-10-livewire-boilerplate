@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use App\Traits\RefreshDataTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
@@ -19,19 +20,9 @@ use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class UserTable extends PowerGridComponent
 {
-    use WithExport;
+    use WithExport, RefreshDataTable;
 
-    protected function getListeners(): array
-    {
-        return array_merge(
-            parent::getListeners(),
-            [
-                'refreshTable' => '$refresh',
-                'bulkDelete',
-                'deleteConfirmation',
-            ]
-        );
-    }
+
 
     public string $sortField = 'id';
     public string $sortDirection = 'desc';
@@ -202,7 +193,7 @@ final class UserTable extends PowerGridComponent
             Button::add('delete-user')
                 ->slot('<i class="las la-trash fs-2 me-2"></i>')
                 ->class('btn btn-icon btn-light-danger')
-                ->dispatchTo('App\Livewire\User\Index', 'deleteConfirmation', ['id' => $row->id]),
+                ->dispatchTo('App\Livewire\User\Index', 'delete-confirmation', ['id' => $row->id]),
         ];
     }
 
@@ -223,10 +214,10 @@ final class UserTable extends PowerGridComponent
         $this->dispatch('showAlert', type: 'info', message: __('You have selected IDs: ' . $ids), buttonColor: 'btn btn-info');
     }
 
-    public function deleteConfirmation($id)
+    /* public function deleteConfirmation($id)
     {
-        //$this->dispatch('showDeleteConfirmation');
-    }
+        $this->dispatch('showDeleteConfirmation');
+    } */
 
     public function actionRules($row): array
     {

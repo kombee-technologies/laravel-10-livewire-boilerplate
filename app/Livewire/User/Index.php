@@ -9,11 +9,11 @@ use Livewire\Attributes\On;
 class Index extends Component
 {
 
-    #[On('deleteConfirmed')]
+    #[On('delete-confirmation')]
     public function destroy($id)
     {
+        dd($id);
         User::where('id', $id)->delete();
-        //dd($id);
         $this->dispatch('showDeleted', type: 'success', message: __('messages.user.messages.delete'));
     }
 
