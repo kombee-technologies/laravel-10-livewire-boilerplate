@@ -99,3 +99,15 @@
         });
     })
 </script>
+
+
+
+<script>
+    /* showAlert */
+    window.addEventListener('showDeleted', event => {
+        Livewire.dispatch('alert', {
+            type: 'success',
+            message: __('messages.user.messages.delete')
+        })
+    })
+</script>

@@ -89,8 +89,8 @@ final class UserTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('first_name')
 
-        /** Example of custom column using a closure **/
-            ->addColumn('first_name_lower', fn(User $model) => strtolower(e($model->first_name)))
+            /** Example of custom column using a closure **/
+            ->addColumn('first_name_lower', fn (User $model) => strtolower(e($model->first_name)))
 
             ->addColumn('last_name')
             ->addColumn('email')
@@ -99,7 +99,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('gender', function (User $model) {
                 return ($model->gender ? 'Male' : 'Female');
             })
-            ->addColumn('dob_formatted', fn(User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
+            ->addColumn('dob_formatted', fn (User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
             ->addColumn('address')
             ->addColumn('country_id')
             ->addColumn('state_id')
@@ -107,7 +107,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('status', function (User $model) {
                 return ($model->status ? 'Active' : 'Inactive');
             })
-            ->addColumn('created_at_formatted', fn(User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     public function columns(): array
@@ -131,7 +131,7 @@ final class UserTable extends PowerGridComponent
                 ->visibleInExport(true),
 
             Column::make('Mobile no', 'mobile_no')
-            //->sortable()
+                //->sortable()
                 ->searchable()
                 ->visibleInExport(true),
 
@@ -145,8 +145,8 @@ final class UserTable extends PowerGridComponent
             //->sortable(),
 
             Column::make('Address', 'address')
-            //->sortable()
-            //->searchable()
+                //->sortable()
+                //->searchable()
                 ->hidden(true, false)
                 ->visibleInExport(true),
 
@@ -230,9 +230,6 @@ final class UserTable extends PowerGridComponent
 
     public function actionRules($row): array
     {
-        return [
-
-        ];
+        return [];
     }
-
 }
