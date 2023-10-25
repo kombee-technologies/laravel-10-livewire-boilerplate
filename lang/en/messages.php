@@ -75,7 +75,8 @@ return [
         ],
 
         'messages' => [
-          'store' => 'User Created Successfully.'
+          'store' => 'User Created Successfully.',
+          'update' => 'User Updated Successfully.'
         ]
 
     ],
@@ -83,6 +84,7 @@ return [
     'next_button_text' => 'Next',
     'cancel_button_text' => 'Cancel',
     'create_button_text' => 'Create',
+    'update_button_text' => 'Update',
     'verify_otp_button_text' => 'Verify OTP',
     'authentication_error' => 'Authentication Error.',
 

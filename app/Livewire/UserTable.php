@@ -28,7 +28,7 @@ final class UserTable extends PowerGridComponent
             [
                 'refreshTable' => '$refresh',
                 'bulkDelete',
-                'deleteConfirmation'
+                'deleteConfirmation',
             ]
         );
     }
@@ -185,38 +185,24 @@ final class UserTable extends PowerGridComponent
     }
 
     #[\Livewire\Attributes\On('edit')]
-    public function edit($rowId): void
+    public function edit($rowId)
     {
-        $this->js('alert(' . $rowId . ')');
+        return $this->redirect('users/'. $rowId .'/edit', navigate: true);// redirect to edit component
     }
 
     public function actions(\App\Models\User $row): array
     {
         return [
-            /*Button::add('edit')
-            ->slot('Edit: '.$row->id)
-            ->id()
-            ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-            ->dispatch('edit', ['rowId' => $row->id])*/
-
-            Button::add('edit-user')
-                ->render(function () {
-                    return Blade::render(<<<HTML
-                          <button title="Edit" wire:navigate><i class="las la-edit fs-2 me-2"></i></button>
-                    HTML);
-                }),
+            Button::add('edit')
+                ->slot('<i class="las la-edit fs-2 me-2"></i>')
+                ->id()
+                ->class('btn btn-icon btn-light-warning')
+                ->dispatch('edit', ['rowId' => $row->id]),
 
             Button::add('delete-user')
                 ->slot('<i class="las la-trash fs-2 me-2"></i>')
-                ->class('')
-                ->dispatchTo('App\Livewire\User\Index','deleteConfirmation', ['id' => $row->id]),
-
-            /* Button::add('delete-user')
-                ->render(function () {
-                    return Blade::render(<<<HTML
-                          <button wire:click="dispatchTo('user.index', 'postAdded', { key: 1})"  title="Delete" wire:navigate><i class="las la-trash fs-2 me-2"></i></button>
-                    HTML);
-                }), */
+                ->class('btn btn-icon btn-light-danger')
+                ->dispatchTo('App\Livewire\User\Index', 'deleteConfirmation', ['id' => $row->id]),
         ];
     }
 
@@ -229,15 +215,16 @@ final class UserTable extends PowerGridComponent
     {
 
         if (count($this->checkboxValues) == 0) {
-            $this->dispatch('showAlert', type: 'warning', message: __('You must select at least one item!'), buttonColor:'btn btn-warning');
+            $this->dispatch('showAlert', type: 'warning', message: __('You must select at least one item!'), buttonColor: 'btn btn-warning');
             return;
         }
 
         $ids = implode(', ', $this->checkboxValues);
-        $this->dispatch('showAlert', type: 'info', message: __('You have selected IDs: ' . $ids), buttonColor:'btn btn-info');
+        $this->dispatch('showAlert', type: 'info', message: __('You have selected IDs: ' . $ids), buttonColor: 'btn btn-info');
     }
 
-    public function deleteConfirmation($id){
+    public function deleteConfirmation($id)
+    {
         //$this->dispatch('showDeleteConfirmation');
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Hobby_user;
 use App\Models\User;
 use App\Models\UserGallery;
 
@@ -22,8 +23,11 @@ class Helper {
 
     $userData['user_type'] = config('constants.user.user_type_enum.1'); // User type id author or sub admin
     $userData['status'] = config('constants.user.status_enum.1');
-    $userData = User::create($userData);
-
+    if(isset($userData['id']) && $userData['id'] !=''){
+        $userData = User::where('id',$userData['id'])->update($userData);
+    } else {
+        $userData = User::create($userData);
+    }
     return $userData;
 
    }
@@ -50,7 +54,9 @@ class Helper {
      * @param $hobbies
      * @return void
      */
-    public static function hobbiesStore($user, $hobbies){
+    public static function hobbiesStore($user, $hobbies)
+    {
+        //Hobby_user::where('user_id', $user->id)->delete();
         /* Insert multiple hobbies */
         if (!empty($hobbies)) {
             $user->hobbies()->attach($hobbies); //this executes the insert-query
