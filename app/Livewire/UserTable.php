@@ -22,8 +22,6 @@ final class UserTable extends PowerGridComponent
 {
     use WithExport, RefreshDataTable;
 
-
-
     public string $sortField = 'id';
     public string $sortDirection = 'desc';
 
@@ -80,8 +78,8 @@ final class UserTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('first_name')
 
-            /** Example of custom column using a closure **/
-            ->addColumn('first_name_lower', fn (User $model) => strtolower(e($model->first_name)))
+        /** Example of custom column using a closure **/
+            ->addColumn('first_name_lower', fn(User $model) => strtolower(e($model->first_name)))
 
             ->addColumn('last_name')
             ->addColumn('email')
@@ -90,7 +88,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('gender', function (User $model) {
                 return ($model->gender ? 'Male' : 'Female');
             })
-            ->addColumn('dob_formatted', fn (User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
+            ->addColumn('dob_formatted', fn(User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
             ->addColumn('address')
             ->addColumn('country_id')
             ->addColumn('state_id')
@@ -98,7 +96,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('status', function (User $model) {
                 return ($model->status ? 'Active' : 'Inactive');
             })
-            ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn(User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     public function columns(): array
@@ -122,7 +120,7 @@ final class UserTable extends PowerGridComponent
                 ->visibleInExport(true),
 
             Column::make('Mobile no', 'mobile_no')
-                //->sortable()
+            //->sortable()
                 ->searchable()
                 ->visibleInExport(true),
 
@@ -136,8 +134,8 @@ final class UserTable extends PowerGridComponent
             //->sortable(),
 
             Column::make('Address', 'address')
-                //->sortable()
-                //->searchable()
+            //->sortable()
+            //->searchable()
                 ->hidden(true, false)
                 ->visibleInExport(true),
 
@@ -178,7 +176,7 @@ final class UserTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId)
     {
-        return $this->redirect('users/'. $rowId .'/edit', navigate: true);// redirect to edit component
+        return $this->redirect('users/' . $rowId . '/edit', navigate: true); // redirect to edit component
     }
 
     public function actions(\App\Models\User $row): array
@@ -211,12 +209,12 @@ final class UserTable extends PowerGridComponent
         }
 
         $ids = implode(', ', $this->checkboxValues);
-        $this->dispatch('showAlert', type: 'info', message: __('You have selected IDs: ' . $ids), buttonColor: 'btn btn-info');
+        $this->dispatch('showAlert', type: 'error', id: $ids, message: __('You have selected IDs: ' . $ids), buttonColor: 'btn btn-info');
     }
 
     /* public function deleteConfirmation($id)
     {
-        $this->dispatch('showDeleteConfirmation');
+    $this->dispatch('showDeleteConfirmation');
     } */
 
     public function actionRules($row): array

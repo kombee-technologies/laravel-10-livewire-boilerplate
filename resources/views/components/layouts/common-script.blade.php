@@ -64,16 +64,16 @@
                 text: event.detail.message,
                 icon: event.detail.type,
                 buttonsStyling: false,
-                //showCancelButton: true,
-                confirmButtonText: "Ok, got it!",
+                confirmButtonText: "Yes, delete it!",
+                showCancelButton: true,
                 customClass: {
                     confirmButton: event.detail.buttonColor,
-                    //cancelButton: 'btn btn-danger'
+                    cancelButton: 'btn btn-danger'
                 }
             })
-            .then((willDelete) => {
-                if (willDelete) {
-                    window.livewire.emit('remove');
+            .then((result) => {
+                if (result.value) {
+                    Livewire.dispatchTo('user.index', 'delete-confirmed', { id: event.detail.id});
                 }
             });
     })
@@ -94,7 +94,7 @@
 
         }).then((result) => {
             if (result.isConfirmed) {
-                //window.livewire.emit('deleteConfirmed');
+                //Livewire.dispatchTo('user.index', 'confirmed', { ids: 2 })
             }
         });
     })
