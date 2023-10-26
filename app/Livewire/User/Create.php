@@ -7,15 +7,17 @@ use App\Models\Country;
 use App\Models\Hobby;
 use App\Models\State;
 use App\Models\User;
+use App\Traits\GalleryTrait;
+use App\Traits\HobbyTrait;
+use App\Traits\UserTrait;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Traits\UploadTrait;
 use Illuminate\Validation\Rule;
 use App\Helpers\Helper;
 
 class Create extends Component
 {
-    use WithFileUploads, UploadTrait;
+    use WithFileUploads, UserTrait, GalleryTrait, HobbyTrait;
 
     public User $user;
     public $countries, $states, $cities, $comment, $upid, $previousRoute;
@@ -103,14 +105,13 @@ class Create extends Component
         ];
 
         /* common code for user data insert into database */
-        $user = Helper::userStore($userData);
+        $user = $this->userStore($userData);
 
         /* Insert multiple user galleries */
-        Helper::galleriesStore($user, $this->galleries);
+        $this->galleriesStore($user, $this->galleries);
 
         /* Insert multiple hobbies */
-        Helper::hobbiesStore($user, $this->hobbies);
-
+        $this->hobbiesStore($user, $this->hobbies);
 
         //$this->dispatch('alert', type: 'success', message: __('messages.user.messages.store'));
         session()->flash('success', __('messages.user.messages.store'));
