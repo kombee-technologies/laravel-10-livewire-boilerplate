@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
@@ -49,9 +50,11 @@ final class UserTable extends PowerGridComponent
 
         return [
 
-            /* Exportable::make('export')
-            ->striped()
-            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), */
+            Exportable::make('export')
+            //->striped('#A6ACCD')
+            //->csvSeparator('|') 
+            //->csvDelimiter("'")
+            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
 
             Header::make()->showSearchInput()
                 ->showToggleColumns(),
