@@ -1,12 +1,15 @@
 
 @props(['placeholder' => 'Select Opations', 'id'])
 
-<select id="{{ $id }}" class="form-select" data-control="select2" data-placeholder="{{ $placeholder }}">
-    {{ $slot }}
-</select>
+<div wire:ignore>
+    <select id="{{ $id }}" class="form-select" data-placeholder="{{ $placeholder }}">
+        {{ $slot }}
+    </select>
+</div>
+
 
 @push('scripts')
-<script>
+<script type="text/javascript">
    $(document).ready(function () {
         $('#{{ $id }}').select2();
         $('#{{ $id }}').on('change', function (e) {

@@ -70,15 +70,16 @@
     <!--end::Scrolltop-->
 
     <!-- Scripts -->
-    @include('components.layouts.partials.footer')
     {{-- <script data-navigate-once>
         document.addEventListener('livewire:navigated', () => {
            console.log("Navigating");
         })
     </script> --}}
-    @include('components.layouts.common-script')
     @livewireScripts
+    @include('components.layouts.partials.footer')
+    @include('components.layouts.common-script')
     @stack('scripts')
+
 </body>
 
 </html>

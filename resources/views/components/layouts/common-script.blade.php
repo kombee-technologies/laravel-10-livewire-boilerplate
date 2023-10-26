@@ -16,6 +16,10 @@
         }
     });
 
+    /* $(document).ready(function(){
+        select2Init();
+    }); */
+
 
     /* date picker */
     $("#kt_datepicker_1").flatpickr({
@@ -23,8 +27,8 @@
         maxDate: new Date()
     });
 
-    /* select2Init: function() {
-        $(documemt).find('.custome-select2').each(function () {
+    /* function select2Init() {
+        $(this).find('.custome-select2').each(function () {
 
             var option = {
               with: '100%',
@@ -41,20 +45,13 @@
             }
 
             $(this).select2(option).on('change', function(e) {
+                alert('123');
                 let livewire = $(this).data('livewire');
                 let variable = $(this).attr('wire:model');
                 eval(livewire).set(variable, $(this).val());
             });
         });
     } */
-</script>
-
-<script>
-    ClassicEditor
-        .create(document.querySelector('#kt_docs_ckeditor_classic'))
-        .catch(error => {
-            //console.error(error);
-        });
 </script>
 
 <script>
@@ -102,7 +99,7 @@
 
 
 
-<script>
+{{-- <script>
     /* showAlert */
     window.addEventListener('showDeleted', event => {
         Livewire.dispatch('alert', {
@@ -110,4 +107,4 @@
             message: __('messages.user.messages.delete')
         })
     })
-</script>
+</script> --}}
