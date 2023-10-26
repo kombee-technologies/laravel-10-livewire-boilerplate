@@ -10,7 +10,7 @@ use Livewire\Form;
 
 class UserForm extends Form
 {
-    public ?User $user;
+    public User $user;
 
     //#[Rule('required|string|max:255')]
     public $first_name;
@@ -42,7 +42,7 @@ class UserForm extends Form
     //#[Rule('required|integer|exists:cities,id,deleted_at,NULL')]
     public $city_id;
 
-    public $hobbies = [], $galleries = [], $tags = [], $multiple_options;
+    public $hobbies = [], $galleries = [];
 
     public $countries, $states, $cities, $comment;
 
@@ -52,7 +52,7 @@ class UserForm extends Form
         return [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            //'email' => ['required', 'email', 'unique:users,email'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'mobile_no' => 'required | regex:/^[6-9]\d{9}$/ | digits:10',
             'address' => ['required', 'string', 'max:500'],
             'gender' =>  'required|in:0,1',
@@ -60,15 +60,14 @@ class UserForm extends Form
             'country_id' => 'required|integer|exists:countries,id,deleted_at,NULL',
             'state_id' => 'required|integer|exists:states,id,deleted_at,NULL',
             'city_id' => 'required|integer|exists:cities,id,deleted_at,NULL',
-            //'hobbies' => 'required|exists:hobbies,id,deleted_at,NULL|array',
-            //'hobbies.*' => 'required|integer',
+            'hobbies' => 'required|exists:hobbies,id,deleted_at,NULL|array',
+            'hobbies.*' => 'required|integer',
             'galleries' => 'required|array|max:5',
             'galleries.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             //'comment.0' => 'required',
             //'comment.*' => 'required',
             //'multiple_options' => 'required',
             //'tags' => 'required',
-
         ];
     }
 

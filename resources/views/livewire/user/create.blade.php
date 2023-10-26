@@ -173,7 +173,7 @@
                                 <x-label for="dob" class="required" value="{{ __('messages.user.create.label_hobbies') }}" />
                                 <div class="form-check form-check-custom form-check-solid">
                                     @foreach ($getHobbies as $key => $hobby)
-                                        <input class="form-check-input" type="checkbox" value="{{ $hobby->id }}" wire:model="hobbies" id="flexCheckDefault"/>
+                                        <input class="form-check-input" type="checkbox" value="{{ $hobby->id }}" wire:model="user.hobbies" id="flexCheckDefault"/>
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $hobby->name }}
                                         </label>
@@ -186,9 +186,9 @@
 
                         <div class="col-md-12">
                             <x-label for="formFileMultiple" class="required" value="{{ __('messages.user.create.label_image_upload') }}" />
-                            <x-input type="file" max="5" id="formFileMultiple" wire:model="galleries" multiple />
-                            <x-input-error for="galleries" />
-                            <x-input-error for="galleries.*" />
+                            <x-input type="file" max="5" id="formFileMultiple" wire:model="user.galleries" multiple />
+                            <x-input-error for="user.galleries" />
+                            <x-input-error for="user.galleries.*" />
                         </div>
 
                         <div class="col-12 text-end">

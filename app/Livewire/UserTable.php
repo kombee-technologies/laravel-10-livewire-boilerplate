@@ -52,10 +52,11 @@ final class UserTable extends PowerGridComponent
 
             Exportable::make('export')
             //->striped('#A6ACCD')
-            //->csvSeparator('|') 
+            //->csvSeparator('|')
             //->csvDelimiter("'")
             ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
 
+            
             Header::make()->showSearchInput()
                 ->showToggleColumns(),
 

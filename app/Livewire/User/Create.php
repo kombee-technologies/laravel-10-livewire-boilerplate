@@ -2,63 +2,25 @@
 
 namespace App\Livewire\User;
 
+use App\Livewire\Forms\UserForm;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Hobby;
 use App\Models\State;
-use App\Models\User;
 use App\Traits\GalleryTrait;
 use App\Traits\HobbyTrait;
 use App\Traits\UserTrait;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Validation\Rule;
-use App\Helpers\Helper;
 
 class Create extends Component
 {
     use WithFileUploads, UserTrait, GalleryTrait, HobbyTrait;
 
-    public User $user;
-    public $countries, $states, $cities, $comment, $upid, $previousRoute;
-    public $hobbies = [], $galleries = [], $tags = [], $multiple_options;
+    public UserForm $user;
 
+    public $states, $cities;
 
-    public function mount()
-    {
-        $this->user = new User;
-        $this->countries = Country::all();
-    }
-
-    public function hydrate()
-    {
-        $this->dispatch('render-select2');
-    }
-
-    protected function rules()
-    {
-        return [
-            'user.first_name' => ['required', 'string', 'max:255'],
-            'user.last_name' => ['required', 'string', 'max:255'],
-            'user.email' => ['required', 'email', 'unique:users,email'],
-            'user.mobile_no' => 'required | regex:/^[6-9]\d{9}$/ | digits:10',
-            'user.address' => ['required', 'string', 'max:500'],
-            'user.gender' =>  ['required', Rule::in([0, 1])],
-            'user.dob' => 'required|date|date_format:Y-m-d',
-            'user.country_id' => 'required|integer|exists:countries,id,deleted_at,NULL',
-            'user.state_id' => 'required|integer|exists:states,id,deleted_at,NULL',
-            'user.city_id' => 'required|integer|exists:cities,id,deleted_at,NULL',
-            'hobbies' => 'required|exists:hobbies,id,deleted_at,NULL|array',
-            'hobbies.*' => 'required|integer',
-            'galleries' => 'required|array|max:5',
-            'galleries.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
-            //'comment.0' => 'required',
-            //'comment.*' => 'required',
-            //'multiple_options' => 'required',
-            //'tags' => 'required',
-
-        ];
-    }
 
     public function updatedUserCountryId($countryId)
     {
@@ -108,10 +70,10 @@ class Create extends Component
         $user = $this->userStore($userData);
 
         /* Insert multiple user galleries */
-        $this->galleriesStore($user, $this->galleries);
+        $this->galleriesStore($user, $this->user->galleries);
 
         /* Insert multiple hobbies */
-        $this->hobbiesStore($user, $this->hobbies);
+        $this->hobbiesStore($user, $this->user->hobbies);
 
         //$this->dispatch('alert', type: 'success', message: __('messages.user.messages.store'));
         session()->flash('success', __('messages.user.messages.store'));
@@ -132,6 +94,6 @@ class Create extends Component
      */
     public function render()
     {
-        return view('livewire.user.create', ['getHobbies' =>  Hobby::all()]);
+        return view('livewire.user.create', ['getHobbies' =>  Hobby::all(), 'countries' => Country::all()]);
     }
 }
