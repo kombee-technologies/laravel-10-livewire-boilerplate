@@ -135,7 +135,7 @@
 
                         <div class="col-md-4">
                             <x-label for="city_id" class="required" value="{{ __('messages.user.create.label_city') }}" />
-                            <x-select-2 wire:model="user.city_id" data-allow-clear="true" id="city_id" placeholder="{{ __('messages.user.create.placeholder_city') }}">
+                            <x-select-2 wire:model="user.city_id" id="city_id" placeholder="{{ __('messages.user.create.placeholder_city') }}">
                                 <option value="">{{ __('messages.user.create.placeholder_city') }}</option>
                                 @if (!empty($cities))
                                     @foreach ($cities as $city)

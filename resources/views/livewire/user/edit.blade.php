@@ -77,44 +77,43 @@
                         <div class="col-md-6">
                             <x-label for="first-name" class="required"
                                 value="{{ __('messages.user.create.label_first_name') }}" />
-                            <x-input type="text" wire:model="form.first_name" autofocus />
-                            <x-input-error for="form.first_name" />
+                            <x-input type="text" wire:model="user.first_name" autofocus />
+                            <x-input-error for="user.first_name" />
                         </div>
 
                         <div class="col-md-6">
                             <x-label for="last-name" class="required"
                                 value="{{ __('messages.user.create.label_last_name') }}" />
-                            <x-input type="text" wire:model="form.last_name" />
-                            <x-input-error for="form.last_name" />
+                            <x-input type="text" wire:model="user.last_name" />
+                            <x-input-error for="user.last_name" />
                         </div>
 
                         <div class="col-md-6">
                             <x-label for="email-address" class="required"
                                 value="{{ __('messages.user.create.label_email') }}" />
-                            <x-input type="email" wire:model="form.email" />
-                            <x-input-error for="form.email" />
+                            <x-input type="email" wire:model="user.email" />
+                            <x-input-error for="user.email" />
                         </div>
 
                         <div class="col-md-6">
                             <x-label for="mobile_no" class="required"
                                 value="{{ __('messages.user.create.label_mobile_no') }}" />
-                            <x-input type="text" wire:model="form.mobile_no" />
-                            <x-input-error for="form.mobile_no" />
+                            <x-input type="text" wire:model="user.mobile_no" />
+                            <x-input-error for="user.mobile_no" />
                         </div>
 
 
                         <div class="col-md-12">
                             <x-label for="address" class="required"
                                 value="{{ __('messages.user.create.label_address') }}" />
-                            <x-textarea wire:model="form.address" />
-                            <x-input-error for="form.address" />
+                            <x-textarea wire:model="user.address" id="kt_docs_ckeditor_classic"/>
+                            <x-input-error for="user.address" />
                         </div>
-
 
                         <div class="col-md-4">
                             <x-label for="country_id" class="required"
                                 value="{{ __('messages.user.create.label_country') }}" />
-                            <x-select-2 wire:model="form.country_id" id="country_id"
+                            <x-select-2 wire:model="user.country_id" id="country_id"
                                 placeholder="{{ __('messages.user.create.placeholder_country') }}">
                                 <option value="">{{ __('messages.user.create.placeholder_country') }}</option>
                                 @if (!empty($countries))
@@ -123,13 +122,13 @@
                                     @endforeach
                                 @endif
                             </x-select-2>
-                            <x-input-error for="form.country_id" />
+                            <x-input-error for="user.country_id" />
                         </div>
 
                         <div class="col-md-4">
                             <x-label for="state_id" class="required"
                                 value="{{ __('messages.user.create.label_state') }}" />
-                            <x-select-2 wire:model="form.state_id" id="state_id"
+                            <x-select-2 wire:model="user.state_id" id="state_id"
                                 placeholder="{{ __('messages.user.create.placeholder_state') }}">
                                 <option value="">{{ __('messages.user.create.placeholder_state') }}</option>
                                 @if (!empty($states))
@@ -138,13 +137,13 @@
                                     @endforeach
                                 @endif
                             </x-select-2>
-                            <x-input-error for="form.state_id" />
+                            <x-input-error for="user.state_id" />
                         </div>
 
                         <div class="col-md-4">
                             <x-label for="city_id" class="required"
                                 value="{{ __('messages.user.create.label_city') }}" />
-                            <x-select-2 wire:model="form.city_id" data-allow-clear="true" id="city_id"
+                            <x-select-2 wire:model="user.city_id" data-allow-clear="true" id="city_id"
                                 placeholder="{{ __('messages.user.create.placeholder_city') }}">
                                 <option value="">{{ __('messages.user.create.placeholder_city') }}</option>
                                 @if (!empty($cities))
@@ -153,13 +152,13 @@
                                     @endforeach
                                 @endif
                             </x-select-2>
-                            <x-input-error for="form.city_id" />
+                            <x-input-error for="user.city_id" />
                         </div>
 
                         <div class="col-md-6">
                             <x-label for="dob" class="required"
                                 value="{{ __('messages.user.create.label_birthday') }}" />
-                            <x-input type="text" wire:model="form.dob" id="kt_datepicker_1" />
+                            <x-input type="text" wire:model="user.dob" id="kt_datepicker_1" />
                             <x-input-error for="form.dob" />
                         </div>
 
@@ -167,46 +166,46 @@
                             <x-label for="dob" class="required"
                                 value="{{ __('messages.user.create.label_gender') }}" />
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" type="radio" wire:model="form.gender"
+                                <input class="form-check-input" type="radio" wire:model="user.gender"
                                     value="0" id="flexRadioDefault" />
                                 <label class="form-check-label" for="flexRadioDefault">
                                     Female
                                 </label>&nbsp;&nbsp;
 
-                                <input class="form-check-input" type="radio" wire:model="form.gender"
+                                <input class="form-check-input" type="radio" wire:model="user.gender"
                                     value="1" id="flexRadioDefault" />
                                 <label class="form-check-label" for="flexRadioDefault">
                                     Male
                                 </label>
                             </div>
-                            <x-input-error for="form.gender" />
+                            <x-input-error for="user.gender" />
                         </div>
 
-                        @if (isset($getHobbies) && !empty($getHobbies))
+                        {{-- @if (isset($getHobbies) && !empty($getHobbies)) --}}
                             <div class="col-md-6">
                                 <x-label for="dob" class="required"
                                     value="{{ __('messages.user.create.label_hobbies') }}" />
                                 <div class="form-check form-check-custom form-check-solid">
                                     @foreach ($getHobbies as $key => $hobby)
                                         <input class="form-check-input" type="checkbox" value="{{ $hobby->id }}"
-                                            wire:model="form.hobbies" id="flexCheckDefault" />
+                                            wire:model="user.hobbies" id="flexCheckDefault" />
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $hobby->name }}
                                         </label>
                                     @endforeach
                                 </div>
-                                <x-input-error for="form.hobbies" />
-                                <x-input-error for="form.hobbies.*" />
+                                <x-input-error for="user.hobbies" />
+                                <x-input-error for="user.hobbies.*" />
                             </div>
-                        @endif
+                        {{-- @endif --}}
 
                         <div class="col-md-12">
                             <x-label for="formFileMultiple" class="required"
                                 value="{{ __('messages.user.create.label_image_upload') }}" />
-                            <x-input type="file" max="5" id="formFileMultiple" wire:model="form.galleries"
+                            <x-input type="file" max="5" id="formFileMultiple" wire:model="user.galleries"
                                 multiple />
-                            <x-input-error for="form.galleries" />
-                            <x-input-error for="form.galleries.*" />
+                            <x-input-error for="user.galleries" />
+                            <x-input-error for="user.galleries.*" />
                         </div>
 
                         <div class="col-12 text-end">
