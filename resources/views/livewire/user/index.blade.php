@@ -77,6 +77,7 @@
                 <div class="card-body pt-0">
                     <!--begin::Table-->
                     <livewire:user-table />
+                    @livewire('user.delete')
                     <!--end::Table-->
                 </div>
                 <!--end::Card body-->

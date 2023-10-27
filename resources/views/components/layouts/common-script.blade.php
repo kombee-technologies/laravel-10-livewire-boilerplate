@@ -30,7 +30,7 @@
                 text: event.detail.message,
                 icon: event.detail.type,
                 buttonsStyling: false,
-                confirmButtonText: "Yes, delete it!",
+                confirmButtonText: "ok!",
                 showCancelButton: true,
                 customClass: {
                     confirmButton: event.detail.buttonColor,
@@ -39,7 +39,7 @@
             })
             .then((result) => {
                 if (result.value) {
-                    Livewire.dispatchTo('user.index', 'delete-confirmed', { id: event.detail.id});
+                    Livewire.dispatch('delete-confirmed');
                 }
             });
     })
@@ -49,18 +49,16 @@
     /* showAlert */
     window.addEventListener('showDeleteConfirmation', event => {
         Swal.fire({
-            text: 'Are you sure?',
-            /* text: event.detail.message,
-            icon: event.detail.type, */
-            //buttonsStyling: false,
+            text: 'Are you sure you want to delete this record?',
+            icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Yes, delete it!",
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33'
 
         }).then((result) => {
-            if (result.isConfirmed) {
-                //Livewire.dispatchTo('user.index', 'confirmed', { ids: 2 })
+            if (result.value) {
+                Livewire.dispatch('delete-confirmed');
             }
         });
     })

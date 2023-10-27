@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\User\Delete;
 use App\Models\User;
 use App\Traits\RefreshDataTable;
 use Illuminate\Database\Eloquent\Builder;
@@ -187,7 +188,7 @@ final class UserTable extends PowerGridComponent
             Button::add('delete-user')
                 ->slot('<i class="las la-trash fs-2 me-2"></i>')
                 ->class('btn btn-icon btn-light-danger')
-                ->dispatchTo('user.index', 'delete-confirmation', ['id' => $row->id]),
+                ->dispatchTo('user.delete', 'delete-confirmation', ['id' => $row->id]),
         ];
     }
 
@@ -205,6 +206,8 @@ final class UserTable extends PowerGridComponent
         }
 
         $ids = implode(', ', $this->checkboxValues);
+
+        //$this->dispatch('delete-confirmation')->to(Delete::class, ['id' => $ids]);
         $this->dispatch('showAlert', type: 'error', id: $ids, message: __('You have selected IDs: ' . $ids), buttonColor: 'btn btn-info');
     }
 

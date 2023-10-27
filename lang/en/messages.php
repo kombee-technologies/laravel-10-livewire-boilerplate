@@ -76,7 +76,8 @@ return [
 
         'messages' => [
           'store' => 'User Created Successfully.',
-          'update' => 'User Updated Successfully.'
+          'update' => 'User Updated Successfully.',
+          'delete' => 'User Deleted Successfully.'
         ]
 
     ],

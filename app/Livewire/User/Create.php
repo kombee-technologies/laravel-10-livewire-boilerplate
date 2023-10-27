@@ -10,6 +10,7 @@ use App\Models\State;
 use App\Traits\GalleryTrait;
 use App\Traits\HobbyTrait;
 use App\Traits\UserTrait;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -20,6 +21,9 @@ class Create extends Component
     public UserForm $user;
 
     public $states, $cities;
+
+
+    
 
 
     public function updatedUserCountryId($countryId)
