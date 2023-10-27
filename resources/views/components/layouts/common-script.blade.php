@@ -16,18 +16,17 @@
         }
     });
 
-    /* $(document).ready(function(){
-        select2Init();
-    }); */
-
-
     /* date picker */
     $("#kt_datepicker_1").flatpickr({
         dateFormat: "Y-m-d",
         maxDate: new Date()
     });
 
-    /* function select2Init() {
+     $(document).ready(function(){
+        select2Init();
+    });
+
+    function select2Init() {
         $(this).find('.custome-select2').each(function () {
 
             var option = {
@@ -45,13 +44,13 @@
             }
 
             $(this).select2(option).on('change', function(e) {
-                alert('123');
+                //alert('123');
                 let livewire = $(this).data('livewire');
                 let variable = $(this).attr('wire:model');
                 eval(livewire).set(variable, $(this).val());
             });
         });
-    } */
+    }
 </script>
 
 <script>

@@ -51,12 +51,8 @@ final class UserTable extends PowerGridComponent
         return [
 
             Exportable::make('export')
-            //->striped('#A6ACCD')
-            //->csvSeparator('|')
-            //->csvDelimiter("'")
-            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
 
-            
             Header::make()->showSearchInput()
                 ->showToggleColumns(),
 
@@ -81,17 +77,13 @@ final class UserTable extends PowerGridComponent
         return PowerGrid::columns()
             ->addColumn('id')
             ->addColumn('first_name')
-
-        /** Example of custom column using a closure **/
             ->addColumn('first_name_lower', fn(User $model) => strtolower(e($model->first_name)))
-
             ->addColumn('last_name')
             ->addColumn('email')
             ->addColumn('mobile_no')
             ->addColumn('user_type')
-            ->addColumn('gender', function (User $model) {
-                return ($model->gender ? 'Male' : 'Female');
-            })
+            ->addColumn('gender_label', fn ($user) => User::genderText()->firstWhere('gender', $user->gender)['label'])
+            ->addColumn('gender')
             ->addColumn('dob_formatted', fn(User $model) => Carbon::parse($model->dob)->format('d/m/Y'))
             ->addColumn('address')
             ->addColumn('country_id')
@@ -128,9 +120,9 @@ final class UserTable extends PowerGridComponent
                 ->searchable()
                 ->visibleInExport(true),
 
-            Column::make('Gender', 'gender')
-                ->sortable()
-                ->searchable()
+            Column::add()
+                ->title('Gender')
+                ->field('gender_label', 'gender')
                 ->visibleInExport(true),
 
             Column::make('Dob', 'dob_formatted', 'dob')
@@ -168,11 +160,11 @@ final class UserTable extends PowerGridComponent
             Filter::inputText('last_name')->operators(['contains']),
             Filter::inputText('email')->operators(['contains']),
             Filter::inputText('mobile_no')->operators(['contains']),
-            //Filter::inputText('user_type')->operators(['contains']),
-            Filter::inputText('gender')->operators(['contains']),
+            Filter::select('gender', 'gender')
+                ->dataSource(User::genderText())
+                ->optionValue('gender')
+                ->optionLabel('label'),
             //Filter::datepicker('dob'),
-            //Filter::inputText('address')->operators(['contains']),
-            //Filter::inputText('status')->operators(['contains']),
             //Filter::datetimepicker('created_at'),
         ];
     }

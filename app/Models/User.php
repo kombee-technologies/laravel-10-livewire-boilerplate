@@ -142,4 +142,15 @@ class User extends Authenticatable
     {
         return response()->json(['error' => $message], config('constants.validation_codes.unprocessable_entity'));
     }
+
+    //...
+    public static function genderText()
+    {
+        return collect(
+            [
+                ['gender' => 0,  'label' => 'Female'],
+                ['gender' => 1,  'label' => 'Male'],
+            ]
+        );
+    }
 }
