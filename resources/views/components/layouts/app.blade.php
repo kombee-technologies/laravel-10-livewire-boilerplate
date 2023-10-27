@@ -80,6 +80,61 @@
     @include('components.layouts.common-script')
     @stack('scripts')
 
-</body>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            select2Init();
+        });
 
+        function select2Init() {
+            //alert(123);
+            $(document).find('.custome-select2').each(function () {
+
+                var option = {
+                    with: '100%',
+                };
+
+                if($(this).attr('data-hide-search') === "true"){
+                    option.minimumResultsForSearch = -1;
+                    option.closeOnSelect = false;
+
+                }
+
+                if($(this).attr('data-placeholder')){
+                    option.placeholder = $(this).attr('data-placeholder');
+                }
+
+                $(this).select2(option).on('change', function (e) {
+                    alert('123');
+                    let livewire = $(this).data('livewire');
+                    let variable = $(this).attr('wire:model');
+                    eval(livewire).set(variable, $(this).val());
+                });
+            });
+        }
+
+        Livewire.hook('request', ({ uri, options, payload, respond, succeed, fail }) => {
+            // Runs after commit payloads are compiled, but before a network request is sent...
+
+            respond(({ status, response }) => {
+                // Runs when the response is received...
+                // "response" is the raw HTTP response object
+                // before await response.text() is run...
+            })
+
+            succeed(({ status, json }) => {
+                setTimeout(function () {
+                    select2Init();
+                }, 5);
+            })
+
+            fail(({ status, content, preventDefault }) => {
+                // Runs when the response has an error status code...
+                // "preventDefault" allows you to disable Livewire's
+                // default error handling...
+                // "content" is the raw response content...
+            })
+        })
+    </script>
+
+</body>
 </html>

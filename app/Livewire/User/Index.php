@@ -9,7 +9,7 @@ use Livewire\Attributes\On;
 class Index extends Component
 {
 
-    #[On('delete-confirmed')]
+    #[On('delete-confirmation')]
     public function destroy($ids)
     {
         dd($ids);

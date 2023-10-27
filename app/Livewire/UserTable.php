@@ -187,7 +187,7 @@ final class UserTable extends PowerGridComponent
             Button::add('delete-user')
                 ->slot('<i class="las la-trash fs-2 me-2"></i>')
                 ->class('btn btn-icon btn-light-danger')
-                ->dispatchTo('App\Livewire\User\Index', 'delete-confirmation', ['id' => $row->id]),
+                ->dispatchTo('user.index', 'delete-confirmation', ['id' => $row->id]),
         ];
     }
 
