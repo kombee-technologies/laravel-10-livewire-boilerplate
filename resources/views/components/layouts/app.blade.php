@@ -70,19 +70,23 @@
     <!--end::Scrolltop-->
 
     <!-- Scripts -->
-    {{-- <script data-navigate-once>
-        document.addEventListener('livewire:navigated', () => {
-           console.log("Navigating");
-        })
-    </script> --}}
+
     @livewireScripts
     @include('components.layouts.partials.footer')
     @include('components.layouts.common-script')
     @stack('scripts')
 
+    {{-- <script data-navigate-once>
+        document.addEventListener('livewire:navigated', () => {
+            $('.jenish').select2();
+        })
+    </script> --}}
+
     <script type="text/javascript">
         $(document).ready(function(){
-            select2Init();
+           /*  window.addEventListener('data-change-event', () => {
+
+            }); */
         });
 
         function select2Init() {
@@ -125,6 +129,7 @@
                 setTimeout(function () {
                     select2Init();
                 }, 5);
+                $('.jenish').select2();
             })
 
             fail(({ status, content, preventDefault }) => {

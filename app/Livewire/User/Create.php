@@ -46,6 +46,11 @@ class Create extends Component
         $this->user->city_id = "";
     }
 
+    public function hydrate()
+    {
+        //$this->dispatch('data-change-event');
+    }
+
     /**
      * @return null
      */
