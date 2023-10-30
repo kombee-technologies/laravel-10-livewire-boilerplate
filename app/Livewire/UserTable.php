@@ -204,17 +204,11 @@ final class UserTable extends PowerGridComponent
             $this->dispatch('showAlert', type: 'warning', message: __('You must select at least one item!'), buttonColor: 'btn btn-warning');
             return;
         }
+        
+        $ids = implode(',', $this->checkboxValues);
+        $this->dispatch('delete-confirmation', $ids)->to(Delete::class);
 
-        $ids = implode(', ', $this->checkboxValues);
-
-        //$this->dispatch('delete-confirmation')->to(Delete::class, ['id' => $ids]);
-        $this->dispatch('showAlert', type: 'error', id: $ids, message: __('You have selected IDs: ' . $ids), buttonColor: 'btn btn-info');
     }
-
-    /* public function deleteConfirmation($id)
-    {
-    $this->dispatch('showDeleteConfirmation');
-    } */
 
     public function actionRules($row): array
     {

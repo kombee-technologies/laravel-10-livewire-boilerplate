@@ -30,16 +30,16 @@
                 text: event.detail.message,
                 icon: event.detail.type,
                 buttonsStyling: false,
-                confirmButtonText: "ok!",
-                showCancelButton: true,
+                confirmButtonText: "Ok, I got it",
+                //showCancelButton: true,
                 customClass: {
                     confirmButton: event.detail.buttonColor,
-                    cancelButton: 'btn btn-danger'
+                    //cancelButton: 'btn btn-danger'
                 }
             })
             .then((result) => {
                 if (result.value) {
-                    Livewire.dispatch('delete-confirmed');
+                    //Livewire.dispatch('delete-confirmed');
                 }
             });
     })

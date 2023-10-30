@@ -22,7 +22,8 @@ class Delete extends Component
     #[On('delete-confirmed')]
     public function destroy(){
         if($this->id){
-            User::where('id', $this->id)->delete();
+            $ids = explode(',', $this->id);
+            User::whereIn('id', $ids)->delete();
             $this->dispatch( __('messages.refreshTable'));
             $this->dispatch('alert', type: 'success', message: __('messages.user.messages.delete'));
         } else {
