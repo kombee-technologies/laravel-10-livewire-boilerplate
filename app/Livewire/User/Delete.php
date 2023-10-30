@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Models\User;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -15,13 +16,19 @@ class Delete extends Component
     public function deleteConfirmation($id)
     {
         $this->id = $id;
-        //User::where('id', $id)->delete();
         $this->dispatch('showDeleteConfirmation');
     }
 
     #[On('delete-confirmed')]
     public function destroy(){
-        $this->dispatch('alert', type: 'success', message: __('messages.user.messages.delete'));
+        if($this->id){
+            User::where('id', $this->id)->delete();
+            $this->dispatch( __('messages.refreshTable'));
+            $this->dispatch('alert', type: 'success', message: __('messages.user.messages.delete'));
+        } else {
+            $this->dispatch('alert', type: 'error', message: __('messages.user.errors.not_found'));
+        }
+
     }
 
     public function render()

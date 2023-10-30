@@ -78,7 +78,11 @@ return [
           'store' => 'User Created Successfully.',
           'update' => 'User Updated Successfully.',
           'delete' => 'User Deleted Successfully.'
-        ]
+        ],
+
+        'errors' => [
+            'not_found' => 'User id not found.',
+          ]
 
     ],
 
@@ -88,5 +92,7 @@ return [
     'update_button_text' => 'Update',
     'verify_otp_button_text' => 'Verify OTP',
     'authentication_error' => 'Authentication Error.',
+
+    'refreshTable' => 'pg:eventRefresh-default',
 
 ];
