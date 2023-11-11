@@ -109,40 +109,40 @@
 
                         <div class="col-md-4">
                             <x-label for="country_id" class="required" value="{{ __('messages.user.create.label_country') }}" />
-                            <x-select-2 wire:model="user.country_id" id="country_id" placeholder="{{ __('messages.user.create.placeholder_country') }}">
+                            <x-forms.select2 variable="$user.country_id" data-placeholder="{{ __('messages.user.create.placeholder_country') }}">
                                 <option value="">{{ __('messages.user.create.placeholder_country') }}</option>
                                 @if (!empty($countries))
                                     @foreach ($countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->name }}</option>
                                     @endforeach
                                 @endif
-                            </x-select-2>
+                            </x-forms.select2>
                             <x-input-error for="user.country_id" />
                         </div>
 
                         <div class="col-md-4">
                             <x-label for="state_id" class="required" value="{{ __('messages.user.create.label_state') }}" />
-                            <x-select-2 wire:model="user.state_id" id="state_id" placeholder="{{ __('messages.user.create.placeholder_state') }}">
+                            <x-forms.select2 variable="$user.state_id" data-placeholder="{{ __('messages.user.create.placeholder_country') }}">
                                 <option value="">{{ __('messages.user.create.placeholder_state') }}</option>
                                 @if (!empty($states))
                                     @foreach ($states as $state)
-                                    <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                        <option value="{{ $state->id }}">{{ $state->name }}</option>
                                     @endforeach
                                 @endif
-                            </x-select-2>
+                            </x-forms.select2>
                             <x-input-error for="user.state_id" />
                         </div>
 
                         <div class="col-md-4">
                             <x-label for="city_id" class="required" value="{{ __('messages.user.create.label_city') }}" />
-                            <x-select-2 wire:model="user.city_id" id="city_id" placeholder="{{ __('messages.user.create.placeholder_city') }}">
+                            <x-forms.select2 variable="$user.city_id" data-placeholder="{{ __('messages.user.create.placeholder_city') }}">
                                 <option value="">{{ __('messages.user.create.placeholder_city') }}</option>
                                 @if (!empty($cities))
                                     @foreach ($cities as $city)
                                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                                     @endforeach
                                 @endif
-                            </x-select-2>
+                            </x-forms.select2>
                             <x-input-error for="user.city_id" />
                         </div>
 

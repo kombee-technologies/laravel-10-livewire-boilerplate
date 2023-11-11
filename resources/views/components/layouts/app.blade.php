@@ -74,7 +74,6 @@
     @livewireScripts
     @include('components.layouts.partials.footer')
     @include('components.layouts.common-script')
-    @stack('scripts')
 
     {{-- <script data-navigate-once>
         document.addEventListener('livewire:navigated', () => {
@@ -83,15 +82,14 @@
     </script> --}}
 
     <script type="text/javascript">
-        $(document).ready(function(){
-           /*  window.addEventListener('data-change-event', () => {
 
-            }); */
+        document.addEventListener('livewire:navigated', () => {
+            select2Init();
         });
 
         function select2Init() {
-            //alert(123);
-            $(document).find('.custome-select2').each(function () {
+
+            $(document).find('.custom-select2').each(function () {
 
                 var option = {
                     with: '100%',
@@ -108,7 +106,7 @@
                 }
 
                 $(this).select2(option).on('change', function (e) {
-                    alert('123');
+
                     let livewire = $(this).data('livewire');
                     let variable = $(this).attr('wire:model');
                     eval(livewire).set(variable, $(this).val());
